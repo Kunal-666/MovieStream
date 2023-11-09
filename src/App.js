@@ -22,8 +22,8 @@ function App() {
     <div className="App">
       <BrowserRouter basename="/stream">
         <BasicExample />
-        <SearchA />
-        <All />
+        <p>home</p>
+        <Home />
         <Routes>
           <Route exact path="/stream" element={<Home />} />
           <Route path="/stream/index" element={<Home />} />
