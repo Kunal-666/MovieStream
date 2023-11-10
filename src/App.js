@@ -20,22 +20,20 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter basename="/stream">
+      <BrowserRouter >
         <BasicExample />
-        <p>home</p>
-        <Home />
         <Routes>
-          <Route exact path="/stream" element={<Home />} />
-          <Route path="/stream/index" element={<Home />} />
+          <Route exact path="/" element={<Home />} />
+          <Route path="/index" element={<Home />} />
           <Route path="/Tv" element={<Tv />} />
           <Route path="/Movies" element={<Movies />} />
-          <Route path="/stream/India" element={<India />} />
+          <Route path="/India" element={<India />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/About" element={<About />} />
           <Route path="/SearchA" element={<SearchA />} />
           <Route path="/Sr" element={<Sr />} />
-          <Route path="/stream/card/:id" element={<CardDetails />} />
-          <Route path="/stream/ac/:id" element={<CardDetails1 />} />
+          <Route path="/card/:id" element={<CardDetails />} />
+          <Route path="/ac/:id" element={<CardDetails1 />} />
           <Route exact path="/AM" element={<AMovie />} />
           <Route exact path="/All" element={<All />} />
           <Route exact path="/Anime" element={<Anime />} />

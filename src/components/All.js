@@ -74,7 +74,6 @@ function All() {
   };
   return (
     <div>
-      <Sr />
       <Container>
         <h3>Top rated movies1</h3>
         <Carousel>
