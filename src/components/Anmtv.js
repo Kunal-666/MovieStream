@@ -2,6 +2,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import Popup from 'reactjs-popup';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 const CardDetails1 = () => {
     const { id } = useParams();
     console.log(id)
@@ -13,7 +16,7 @@ const CardDetails1 = () => {
             .then(res => res.json())
             .then(json => setMovieList(json))
     }
-    useEffect(() => { getMovie() }, [])
+    getMovie();
 
     console.log(movieList)
     const t = movieList.imdb_id
@@ -47,80 +50,78 @@ const CardDetails1 = () => {
 
     return (
         <div>
+            <Container>
+                <Row>
+                    <h3>{movieList.title}</h3>
+                    <p>
+                        {movieList.release_date}
+                    </p>
+                    <Col xs>
+                        <Row>
+                            <Popup trigger={
+                                <img id='poster' src={`https://image.tmdb.org/t/p/w500${movieList.poster_path}`} alt="cover" />
+                            }
+                                modal nested>
+                                {
+                                    close => (
+                                        <div className='modal1'>
+                                            <div className='conten1t'>
+                                                <iframe ref={iframeRef} src={`https://vidsrc.me/embed/movie?tmdb=${id}`} width="100%" height="360" title="Video" allowFullScreen />
+                                            </div>
+                                            <div>
+                                                <button onClick={() => close()}>
+                                                    Close modal
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                            </Popup>
+                        </Row>
+                    </Col>
+                    <Col xs>
+                        <Row>
+                            <h3>
+                                Genres
+                            </h3>
+                            <div class="column32">
 
-            <div class="movie-card">
-                <div class="container">
+                                {g.map((movie) => (
+                                    <span class="tag1">{movie + ', '}</span>
 
-                    <Popup trigger=
-                        {<a href="#">
+                                ))}
+                            </div>
+                            <h3>
+                                Tagline
+                            </h3>
+                            <p style={{ textAlign: 'justify' }}>{movieList.tagline}</p>
+                            <h3>
+                                Runtime
+                            </h3>
+                            <p>{movieList.runtime + " min"}</p>
+                            <h3>
+                                Budget
+                            </h3>
+                            <p>{movieList.budget + "$"}</p>
+                            <h3>
+                                Revenue
+                            </h3>
+                            <p>{movieList.revenue + "$"}</p>
 
-                            <img src={`https://image.tmdb.org/t/p/w500${movieList.poster_path}`} alt="cover" class="cover" />
-                        </a>}
-                        modal nested>
-                        {
-                            close => (
-                                <div className='modal1'>
-                                    <div className='conten1t'>
+                        </Row>
 
-                                        <iframe ref={iframeRef} src={`https://vidsrc.to/embed/tv/${id}`} width="640" height="360" title="Video" allowFullScreen />
-                                    </div>
-                                    <div>
-                                        <button onClick=
-                                            {() => close()}>
-                                            Close modal
-                                        </button>
-                                    </div>
-                                </div>
-                            )
-                        }
-                    </Popup>
-                    <div class="hero" >
+                    </Col>
+                    <Col xs>
+                        <Row>
+                            <h3>
+                                Overview
+                            </h3>
+                            <p style={{ textAlign: 'justify' }}>{movieList.overview}</p>
+                        </Row>
+                    </Col>
+                </Row><Row>
+                </Row>
+            </Container >
 
-                        <div class="details">
-
-                            <div class="title1">{movieList.title}<span>PG-13</span></div>
-
-                            <div class="title2">{movieList.tagline}</div>
-
-                            <fieldset class="rating">
-                                <input type="radio" id="star5" name="rating" value="5" /><label class="full" for="star5" title="Awesome - 5 stars"></label>
-                                <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-                                <input type="radio" id="star4" name="rating" value="4" checked /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
-                                <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-                                <input type="radio" id="star3" name="rating" value="3" /><label class="full" for="star3" title="Meh - 3 stars"></label>
-                                <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-                                <input type="radio" id="star2" name="rating" value="2" /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
-                                <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-                                <input type="radio" id="star1" name="rating" value="1" /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
-                                <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-                            </fieldset>
-
-                            <span class="likes">{movieList.vote_count}</span>
-
-                        </div>
-                    </div>
-
-                    <div class="description">
-
-                        <div class="column1">
-                            {g.map((movie) => (
-                                <span class="tag">{movie}</span>
-
-                            ))}
-                        </div>
-
-
-                        <div class="column2">
-
-                            <p>{movieList.overview}</p>
-
-
-                        </div>
-                    </div>
-
-
-                </div>
-            </div>
 
         </div >
     );

@@ -90,7 +90,7 @@ function Sr() {
 
                     <article class="card">
 
-                        <> <img id='poster' src={`https://image.tmdb.org/t/p/w500${Search.poster_path}`} />
+                        <> <img id='poster' alt='poster' src={`https://image.tmdb.org/t/p/w500${Search.poster_path}`} />
                             <div class="content1 content">
                                 <h2 key={Search.id}>{Search.original_title}</h2>
                             </div>

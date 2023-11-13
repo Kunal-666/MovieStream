@@ -87,9 +87,7 @@ function SearchA() {
                             </div>
                             <div class="content2 content">
                                 <p key={SearchA.id}>{SearchA.release_date}</p>
-
                             </div>
-
                             <div class="content3 content">
                                 <ReadMore
                                     text={SearchA.overview} maxWords={20} />
@@ -98,13 +96,13 @@ function SearchA() {
                                 <p key={SearchA.id}>{SearchA.vote_average}</p>
                                 <Link to={`/ac/${SearchA.id}`} key={SearchA.id}>
                                     watch
-                                </Link><br></br>
+                                </Link>
+                                {/* <br></br>
                                 <Link to={`/card/${SearchA.id}`} key={SearchA.id}>
                                     watch2
-                                </Link>
+                                </Link> */}
                             </footer>
                         </>
-
                     </article>
                 ))}
             </div></>

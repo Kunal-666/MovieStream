@@ -53,7 +53,6 @@ function Home1() {
     const [TtrPList, setTtrPList] = useState([])
     const getTtr = () => {
         fetch('https://api.themoviedb.org/3/discover/tv?api_key=0d0f1379d0c8b95596f350605ec7f984&sort_by=primary_release_date.desc&with_original_language=hi|')
-            // fetch('https://api.themoviedb.org/3/discover/tv/?api_key=0d0f1379d0c8b95596f350605ec7f984&sort_by=popularity.desc&with_original_language=hi|kn|ml|ta|te')
             .then(res => res.json())
             .then(json => setTtrPList(json.results))
     }
@@ -79,10 +78,6 @@ function Home1() {
                                         <Link to={`/card/${item.id}`}>
                                             <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                                         </Link>
-
-                                        {/* <Card.Body>
-                                            <Card.Title>{item.title}</Card.Title>
-                                        </Card.Body> */}
                                     </Card>
                                 );
                             })}
@@ -103,10 +98,6 @@ function Home1() {
                                             <Link to={`/ac/${item.id}`}>
                                                 <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                                             </Link>
-
-                                            {/* <Card.Body>
-                                                <Card.Title>{item.title}</Card.Title>
-                                            </Card.Body> */}
                                         </Card>
                                     );
                                 })}
@@ -116,41 +107,30 @@ function Home1() {
                 </Carousel>
             </Container>
             <><h1>Trending</h1><div class="cards">
-
                 {HomeList.map((Home) => (
-
                     <article class="card">
-
                         <>
-                            <img id='poster' src={`https://image.tmdb.org/t/p/w500${Home.poster_path}`} />
+                            <img alt='poster' id='poster' src={`https://image.tmdb.org/t/p/w500${Home.poster_path}`} />
                             <div class="content1 content">
                                 <h2 key={Home.id}>{Home.original_title}</h2>
                             </div>
                             <div class="content2 content">
                                 <p key={Home.id}>{Home.release_date}</p>
-
                             </div>
-
                             <div class="content3 content">
                                 <ReadMore
                                     text={Home.overview} maxWords={20} />
                             </div>
                             <footer>
                                 <p key={Home.id}>{Home.vote_average}</p>
-                                <Link to={`/ac/${Home.id}`} key={Home.id}>
-                                    watch
-                                </Link>
-                                <br></br>
                                 <Link to={`/card/${Home.id}`} key={Home.id}>
-                                    watch2
+                                    watch
                                 </Link>
                             </footer>
                         </>
-
                     </article>
                 ))}
             </div></></>
     )
 }
-
 export default Home1

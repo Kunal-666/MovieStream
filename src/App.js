@@ -20,7 +20,6 @@ function App() {
   const [mode, setmode] = useState('light')
   const toggleMode = () => {
     if (mode === 'light') {
-      // document.getElementById("root").classList.add("dark")
       setmode('dark');
       document.body.style.backgroundColor = '#000'
       document.body.style.color = "#fff"
@@ -31,9 +30,10 @@ function App() {
     else {
       setmode('light');
       document.body.style.backgroundColor = '#fff'
-      // var r = document.querySelector(':root');
-      r.style.setProperty('--blue', 'white');
-      r.style.setProperty('--text', 'black');
+      document.body.style.color = "#000"
+      var t = document.querySelector(':root');
+      t.style.setProperty('--blue', 'white');
+      t.style.setProperty('--text', 'black');
 
     }
   }

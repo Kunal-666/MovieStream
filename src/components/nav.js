@@ -26,7 +26,7 @@ function BasicExample(props) {
                     <Form.Check
                         type="switch"
                         id="custom-switch"
-                        label="Check this switch"
+                        label={props.mode}
                         onClick={props.toggleMode}
 
                     />

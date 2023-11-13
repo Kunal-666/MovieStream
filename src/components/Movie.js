@@ -57,7 +57,7 @@ function Movie() {
                     <article class="card">
 
                         <>
-                            <img id='poster' src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
+                            <img alt='poster' id='poster' src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
                             <div>
                                 <div class="content1 content">
                                     <h2 key={movie.id}>{movie.original_title}</h2>
@@ -74,11 +74,8 @@ function Movie() {
                             </div>
                             <footer>
                                 <p key={movie.id}>{movie.vote_average}</p>
-                                <Link to={`/ac/${movie.id}`} key={movie.id}>
-                                    watch
-                                </Link><br></br>
                                 <Link to={`/card/${movie.id}`} key={movie.id}>
-                                    watch2
+                                    watch
                                 </Link>
                             </footer>
                         </>
