@@ -45,7 +45,7 @@ function Sr() {
         var query = document.getElementById('qr').value
 
         console.log('value is:', query);
-        fetch(`https://api.themoviedb.org/3/search/multi?query=${query}&api_key=0d0f1379d0c8b95596f350605ec7f984`)
+        fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&api_key=0d0f1379d0c8b95596f350605ec7f984`)
             .then(res => res.json())
             .then(json => setSearchList(json.results))
     }
@@ -79,8 +79,6 @@ function Sr() {
             </Container>
             <div class="search-container">
 
-                {/* <input type='text'  /><br></br> */}
-                {/* <button >search</button> */}
 
             </div>
 
@@ -105,9 +103,7 @@ function Sr() {
                             </div>
                             <footer>
                                 <p key={Search.id}>{Search.vote_average}</p>
-                                <Link to={`/ac/${Search.id}`} key={Search.id}>
-                                    watch
-                                </Link><br></br>
+
                                 <Link to={`/card/${Search.id}`} key={Search.id}>
                                     watch2
                                 </Link>

@@ -52,10 +52,8 @@ const CardDetails1 = () => {
         <div>
             <Container>
                 <Row>
-                    <h3>{movieList.title}</h3>
-                    <p>
-                        {movieList.release_date}
-                    </p>
+                    <h3>{movieList.name}</h3>
+
                     <Col xs>
                         <Row>
                             <Popup trigger={
@@ -66,7 +64,7 @@ const CardDetails1 = () => {
                                     close => (
                                         <div className='modal1'>
                                             <div className='conten1t'>
-                                                <iframe ref={iframeRef} src={`https://vidsrc.me/embed/movie?tmdb=${id}`} width="100%" height="360" title="Video" allowFullScreen />
+                                                <iframe ref={iframeRef} src={`https://vidsrc.to/embed/tv/${id}`} width="100%" height="360" title="Video" allowFullScreen />
                                             </div>
                                             <div>
                                                 <button onClick={() => close()}>
@@ -95,17 +93,14 @@ const CardDetails1 = () => {
                             </h3>
                             <p style={{ textAlign: 'justify' }}>{movieList.tagline}</p>
                             <h3>
-                                Runtime
+                                Total Seasons
                             </h3>
-                            <p>{movieList.runtime + " min"}</p>
+                            <p>{movieList.number_of_seasons}</p>
                             <h3>
-                                Budget
+                                Total Episodes
                             </h3>
-                            <p>{movieList.budget + "$"}</p>
-                            <h3>
-                                Revenue
-                            </h3>
-                            <p>{movieList.revenue + "$"}</p>
+                            <p>{movieList.number_of_episodes}</p>
+
 
                         </Row>
 
