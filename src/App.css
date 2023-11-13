@@ -1,6 +1,11 @@
+:root {
+    --blue: #ffffff;
+    --text: #000;
+}
+
 body {
     overflow-x: hidden;
-    background-color: #fff;
+    /* background-color: #fff; */
     /* background-color: #000; */
     color: #333;
     font: 1.2em / 1.5 Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -29,11 +34,16 @@ img {
 }
 
 .card {
+    background-color: #000;
     display: grid;
     grid-template-rows: max-content 100px 1fr;
     border: 1px solid #999;
     border-radius: 3px;
 }
+
+/* .card .cont {
+   
+} */
 
 .card img {
     object-fit: cover;
@@ -47,7 +57,9 @@ img {
 }
 
 .card .content {
+    background-color: var(--blue);
     padding: .5rem;
+    color: var(--text);
 }
 
 .content .read-more button {

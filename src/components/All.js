@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
-import Sr from './Sr';
 
 
 function All() {
@@ -66,7 +65,7 @@ function All() {
   useEffect(() => { getTtr() }, [])
   console.log(TtrPList)
   const reduceRecipes = (acc, cur, index) => {
-    const groupIndex = Math.floor(index / 5);
+    const groupIndex = Math.floor(index / 4);
     if (!acc[groupIndex]) acc[groupIndex] = [];
     acc[groupIndex].push(cur);
     console.log(acc);
@@ -75,7 +74,7 @@ function All() {
   return (
     <div>
       <Container>
-        <h3>Top rated movies1</h3>
+        <h3>Top rated movies</h3>
         <Carousel>
           {HomeList.reduce(reduceRecipes, []).map((item, index) => (
             <Carousel.Item key={index}>
@@ -87,9 +86,9 @@ function All() {
                         <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                       </Link>
 
-                      <Card.Body>
+                      {/* <Card.Body>
                         <Card.Title>{item.title}</Card.Title>
-                      </Card.Body>
+                      </Card.Body> */}
                     </Card>
                   );
                 })}
@@ -111,9 +110,9 @@ function All() {
                         <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                       </Link>
 
-                      <Card.Body>
+                      {/* <Card.Body>
                         <Card.Title>{item.title}</Card.Title>
-                      </Card.Body>
+                      </Card.Body> */}
                     </Card>
                   );
                 })}
@@ -135,9 +134,9 @@ function All() {
                         <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                       </Link>
 
-                      <Card.Body>
+                      {/* <Card.Body>
                         <Card.Title>{item.title}</Card.Title>
-                      </Card.Body>
+                      </Card.Body> */}
                     </Card>
                   );
                 })}
@@ -159,9 +158,9 @@ function All() {
                         <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                       </Link>
 
-                      <Card.Body>
+                      {/* <Card.Body>
                         <Card.Title>{item.name}</Card.Title>
-                      </Card.Body>
+                      </Card.Body> */}
                     </Card>
                   );
                 })}
@@ -183,9 +182,9 @@ function All() {
                         <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                       </Link>
 
-                      <Card.Body>
+                      {/* <Card.Body>
                         <Card.Title>{item.name}</Card.Title>
-                      </Card.Body>
+                      </Card.Body> */}
                     </Card>
                   );
                 })}
@@ -207,9 +206,9 @@ function All() {
                         <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                       </Link>
 
-                      <Card.Body>
+                      {/* <Card.Body>
                         <Card.Title>{item.name}</Card.Title>
-                      </Card.Body>
+                      </Card.Body> */}
                     </Card>
                   );
                 })}

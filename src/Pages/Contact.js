@@ -1,28 +1,22 @@
 import React from 'react'
-
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 function Contact() {
 
     return (
         <div>
-            <div class="contact-container">
-
-                <div class="contact-content-con">
-                    <div class="left-contact">
-                        <h4>Contact me here</h4>
-                        <p>
-                            seeking a challenging
-                            entry-level position to apply my
-                            knowledge and skills to create dynamic
-                            and user-friendly web applications.
-                        </p>
-                        <div class="contact-info">
+            <Container>
+                <h4 style={{ textAlign: 'center' }}>Contact</h4>
+                <Row>
+                    <Col xs>
+                        <div className='location'>
                             <div class="contact-item">
                                 <div class="icon">
                                     <i class="fas fa-map-marker-alt"></i>
                                     <span>Location</span>
                                 </div>
                                 <p>
-                                    : Bareilly,UP,INDIA
                                 </p>
                             </div>
                             <div class="contact-item">
@@ -31,29 +25,35 @@ function Contact() {
                                     <span>Email</span>
                                 </div>
                                 <p>
-                                    <span>: kg7358086@gmail.com</span>
                                 </p>
                             </div>
+                        </div>
+                    </Col>
+                    <Col xs>
+                        <div className='location'>
                             <div class="contact-item">
                                 <div class="icon">
                                     <i class="fas fa-user-graduate"></i>
                                     <span>Mobile Number</span>
                                 </div>
                                 <p>
-                                    <span>: 8218092405</span>
-                                </p>
-                            </div>
-                            <div class="contact-item">
-                                <div class="icon">
-                                    <i class="fas fa-globe-africa"></i>
-                                    <span>Languages</span>
-                                </div>
-                                <p>
-                                    <span>: Hindi, English</span>
                                 </p>
                             </div>
                         </div>
-                       
+                    </Col>
+                </Row>
+            </Container>
+            <div class="contact-container">
+
+                <div class="contact-content-con">
+                    <div class="left-contact">
+
+
+                        <div class="contact-info">
+
+
+                        </div>
+
                     </div>
 
                 </div>

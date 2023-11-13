@@ -60,7 +60,7 @@ function Home1() {
     useEffect(() => { getTtr() }, [])
     console.log(TtrPList)
     const reduceRecipes = (acc, cur, index) => {
-        const groupIndex = Math.floor(index / 5);
+        const groupIndex = Math.floor(index / 4);
         if (!acc[groupIndex]) acc[groupIndex] = [];
         acc[groupIndex].push(cur);
         console.log(acc);
@@ -80,9 +80,9 @@ function Home1() {
                                             <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                                         </Link>
 
-                                        <Card.Body>
+                                        {/* <Card.Body>
                                             <Card.Title>{item.title}</Card.Title>
-                                        </Card.Body>
+                                        </Card.Body> */}
                                     </Card>
                                 );
                             })}
@@ -104,9 +104,9 @@ function Home1() {
                                                 <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
                                             </Link>
 
-                                            <Card.Body>
+                                            {/* <Card.Body>
                                                 <Card.Title>{item.title}</Card.Title>
-                                            </Card.Body>
+                                            </Card.Body> */}
                                         </Card>
                                     );
                                 })}

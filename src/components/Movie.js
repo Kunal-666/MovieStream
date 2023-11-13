@@ -49,40 +49,43 @@ function Movie() {
 
 
     return (
-        <><h1> Most Popular Movies</h1><div class="cards">
+        <><h1> Most Popular Movies</h1>
+            <div class="cards">
 
-            {movieList.map((movie) => (
+                {movieList.map((movie) => (
 
-                <article class="card">
+                    <article class="card">
 
-                    <>
-                        <img id='poster' src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
-                        <div class="content1 content">
-                            <h2 key={movie.id}>{movie.original_title}</h2>
-                        </div>
-                        <div class="content2 content">
-                            <p key={movie.id}>{movie.release_date}</p>
+                        <>
+                            <img id='poster' src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
+                            <div>
+                                <div class="content1 content">
+                                    <h2 key={movie.id}>{movie.original_title}</h2>
+                                </div>
+                                <div class="content2 content">
+                                    <p key={movie.id}>{movie.release_date}</p>
 
-                        </div>
+                                </div>
 
-                        <div class="content3 content">
-                            <ReadMore
-                                text={movie.overview} maxWords={20} />
-                        </div>
-                        <footer>
-                            <p key={movie.id}>{movie.vote_average}</p>
-                            <Link to={`/ac/${movie.id}`} key={movie.id}>
-                                watch
-                            </Link><br></br>
-                            <Link to={`/card/${movie.id}`} key={movie.id}>
-                                watch2
-                            </Link>
-                        </footer>
-                    </>
+                                <div class="content3 content">
+                                    <ReadMore
+                                        text={movie.overview} maxWords={20} />
+                                </div>
+                            </div>
+                            <footer>
+                                <p key={movie.id}>{movie.vote_average}</p>
+                                <Link to={`/ac/${movie.id}`} key={movie.id}>
+                                    watch
+                                </Link><br></br>
+                                <Link to={`/card/${movie.id}`} key={movie.id}>
+                                    watch2
+                                </Link>
+                            </footer>
+                        </>
 
-                </article>
-            ))}
-        </div></>
+                    </article>
+                ))}
+            </div ></>
     )
 }
 

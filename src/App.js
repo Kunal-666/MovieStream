@@ -14,14 +14,35 @@ import Movies from './Pages/Movies';
 import Contact from './Pages/Contact';
 import All from './components/All';
 import India from './Pages/India';
-import Anime from './Pages/Anime';
+import { useState } from "react";
 
 function App() {
+  const [mode, setmode] = useState('light')
+  const toggleMode = () => {
+    if (mode === 'light') {
+      // document.getElementById("root").classList.add("dark")
+      setmode('dark');
+      document.body.style.backgroundColor = '#000'
+      document.body.style.color = "#fff"
+      var r = document.querySelector(':root');
+      r.style.setProperty('--blue', 'black');
+      r.style.setProperty('--text', 'white');
+    }
+    else {
+      setmode('light');
+      document.body.style.backgroundColor = '#fff'
+      // var r = document.querySelector(':root');
+      r.style.setProperty('--blue', 'white');
+      r.style.setProperty('--text', 'black');
+
+    }
+  }
+
 
   return (
     <div className="App">
       <BrowserRouter >
-        <BasicExample />
+        <BasicExample mode={mode} toggleMode={toggleMode} />
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/index" element={<Home />} />
@@ -36,7 +57,6 @@ function App() {
           <Route path="/ac/:id" element={<CardDetails1 />} />
           <Route exact path="/AM" element={<AMovie />} />
           <Route exact path="/All" element={<All />} />
-          <Route exact path="/Anime" element={<Anime />} />
         </Routes>
       </BrowserRouter>
     </div>
