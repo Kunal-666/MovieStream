@@ -40,8 +40,8 @@ function App() {
 
 
   return (
-    <div className="App">
-      <BrowserRouter >
+    <><div className="App">
+      <BrowserRouter>
         <BasicExample mode={mode} toggleMode={toggleMode} />
         <Routes>
           <Route exact path="/" element={<Home />} />
@@ -58,9 +58,13 @@ function App() {
           <Route exact path="/AM" element={<AMovie />} />
           <Route exact path="/All" element={<All />} />
         </Routes>
-      </BrowserRouter>
-    </div>
 
+      </BrowserRouter>
+      <footer>
+        <p style={{ textAlign: "center" }}> Design & Developed by<a href="https://kunal-666.github.io/Profile/">Kunal Gupta</a>  &copy; 2021</p>
+      </footer >
+    </div>
+    </>
   );
 }
 
