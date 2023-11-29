@@ -1,7 +1,6 @@
 // CardDetails.js
-import React, {  useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import Popup from 'reactjs-popup';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -36,19 +35,6 @@ const CardDetails = () => {
 
     const iframeRef = useRef(null);
 
-    const handleFullScreenClick = () => {
-        const iframe = iframeRef.current;
-
-        if (iframe) {
-            if (iframe.requestFullscreen) {
-                iframe.requestFullscreen();
-            } else if (iframe.mozRequestFullScreen) {
-                iframe.mozRequestFullScreen();
-            } else if (iframe.webkitRequestFullscreen) {
-                iframe.webkitRequestFullscreen();
-            }
-        }
-    }
 
     return (
         <div>
@@ -58,30 +44,8 @@ const CardDetails = () => {
                     <p>
                         {movieList.release_date}
                     </p>
-                    <Col xs>
-                        <Row>
-                            <Popup trigger={
-                                // <a href="#">
-                                <img id='poster' src={`https://image.tmdb.org/t/p/w500${movieList.poster_path}`} alt="cover" />
-                                // </a>
-                            }
-                                modal nested>
-                                {
-                                    close => (
-                                        <div className='modal1'>
-                                            <div className='conten1t'>
-                                                <iframe ref={iframeRef} src={`https://vidsrc.me/embed/movie?tmdb=${id}`} width="100%" height="360" title="Video" allowFullScreen />
-                                            </div>
-                                            <div>
-                                                <button onClick={() => close()}>
-                                                    Close modal
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )}
-                            </Popup>
-                        </Row>
-                    </Col>
+                    <iframe ref={iframeRef} src={`https://vidsrc.me/embed/movie?tmdb=${id}`} width="100%" height="360" title="Video" allowFullScreen />
+
                     <Col xs>
                         <Row>
                             <h3>
@@ -102,6 +66,11 @@ const CardDetails = () => {
                                 Runtime
                             </h3>
                             <p>{movieList.runtime + " min"}</p>
+                        </Row>
+                    </Col>
+                    <Col xs>
+                        <Row>
+
                             <h3>
                                 Budget
                             </h3>

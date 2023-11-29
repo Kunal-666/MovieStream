@@ -1,7 +1,6 @@
 // CardDetails.js
-import React, {  useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import Popup from 'reactjs-popup';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -34,48 +33,14 @@ const CardDetails1 = () => {
     }
     const iframeRef = useRef(null);
 
-    const handleFullScreenClick = () => {
-        const iframe = iframeRef.current;
-
-        if (iframe) {
-            if (iframe.requestFullscreen) {
-                iframe.requestFullscreen();
-            } else if (iframe.mozRequestFullScreen) {
-                iframe.mozRequestFullScreen();
-            } else if (iframe.webkitRequestFullscreen) {
-                iframe.webkitRequestFullscreen();
-            }
-        }
-    }
+    
 
     return (
         <div>
             <Container>
                 <Row>
                     <h3>{movieList.name}</h3>
-
-                    <Col xs>
-                        <Row>
-                            <Popup trigger={
-                                <img id='poster' src={`https://image.tmdb.org/t/p/w500${movieList.poster_path}`} alt="cover" />
-                            }
-                                modal nested>
-                                {
-                                    close => (
-                                        <div className='modal1'>
-                                            <div className='conten1t'>
-                                                <iframe ref={iframeRef} src={`https://vidsrc.to/embed/tv/${id}`} width="100%" height="360" title="Video" allowFullScreen />
-                                            </div>
-                                            <div>
-                                                <button onClick={() => close()}>
-                                                    Close modal
-                                                </button>
-                                            </div>
-                                        </div>
-                                    )}
-                            </Popup>
-                        </Row>
-                    </Col>
+                    <iframe ref={iframeRef} src={`https://vidsrc.to/embed/tv/${id}`} width="100%" height="360" title="Video" allowFullScreen />
                     <Col xs>
                         <Row>
                             <h3>
@@ -92,6 +57,10 @@ const CardDetails1 = () => {
                                 Tagline
                             </h3>
                             <p style={{ textAlign: 'justify' }}>{movieList.tagline}</p>
+                        </Row>
+                    </Col>
+                    <Col xs>
+                        <Row>
                             <h3>
                                 Total Seasons
                             </h3>
@@ -100,10 +69,7 @@ const CardDetails1 = () => {
                                 Total Episodes
                             </h3>
                             <p>{movieList.number_of_episodes}</p>
-
-
                         </Row>
-
                     </Col>
                     <Col xs>
                         <Row>

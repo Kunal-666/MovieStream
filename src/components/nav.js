@@ -2,12 +2,15 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
+import { NavLink } from "react-bootstrap";
 import React from 'react';
-function BasicExample(props) {
+import { Link } from 'react-router-dom';
 
+
+function BasicExample(props) {
     return (
         <><Navbar expand="lg" className={`bg-body-${props.mode} navbar-${props.mode} bg-${props.mode}`}>
-            <Container>
+            <Container >
                 <Navbar.Brand href="/index">MovieStream</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -18,8 +21,6 @@ function BasicExample(props) {
                         <Nav.Link href="/India">India</Nav.Link>
                         <Nav.Link href="/About">About</Nav.Link>
                         <Nav.Link href="/Contact">ContactUs</Nav.Link>
-
-
                     </Nav>
                 </Navbar.Collapse >
                 <Form >
@@ -28,16 +29,11 @@ function BasicExample(props) {
                         id="custom-switch"
                         label={props.mode}
                         onClick={props.toggleMode}
-
                     />
                 </Form>
             </Container >
-
         </Navbar >
-
         </>
-
-
     );
 }
 
