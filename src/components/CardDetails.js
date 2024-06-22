@@ -51,10 +51,10 @@ const CardDetails = () => {
                             <h3>
                                 Genres
                             </h3>
-                            <div class="column32">
+                            <div className="column32">
 
                                 {g.map((movie) => (
-                                    <span class="tag1">{movie + ', '}</span>
+                                    <span className="tag1">{movie + ', '}</span>
 
                                 ))}
                             </div>

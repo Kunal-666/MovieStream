@@ -42,7 +42,7 @@ function Home1() {
     const [HomeList, setHomeList] = useState([])
 
     const getHome = () => {
-        fetch('https://api.themoviedb.org/3/discover/movie/?api_key=0d0f1379d0c8b95596f350605ec7f984&sort_by=popularity.desc&with_original_language=hi|kn|ml|ta|te')
+        fetch('https://api.themoviedb.org/3/discover/movie?api_key=0d0f1379d0c8b95596f350605ec7f984&&with_original_language=hi&page=1&sort_by=popularity.desc')
             .then(res => res.json())
             .then(json => setHomeList(json.results))
     }
@@ -106,18 +106,18 @@ function Home1() {
                     ))}
                 </Carousel>
             </Container>
-            <><h1>Trending</h1><div class="cards">
+            <><h1>Trending</h1><div className="cards">
                 {HomeList.map((Home) => (
-                    <article class="card">
+                    <article className="card">
                         <>
                             <img alt='poster' id='poster' src={`https://image.tmdb.org/t/p/w500${Home.poster_path}`} />
-                            <div class="content1 content">
+                            <div className="content1 content">
                                 <h2 key={Home.id}>{Home.original_title}</h2>
                             </div>
-                            <div class="content2 content">
+                            <div className="content2 content">
                                 <p key={Home.id}>{Home.release_date}</p>
                             </div>
-                            <div class="content3 content">
+                            <div className="content3 content">
                                 <ReadMore
                                     text={Home.overview} maxWords={20} />
                             </div>

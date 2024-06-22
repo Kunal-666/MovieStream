@@ -11,17 +11,17 @@ function Contact() {
                 <Row>
                     <Col xs>
                         <div className='location'>
-                            <div class="contact-item">
-                                <div class="icon">
-                                    <i class="fas fa-map-marker-alt"></i>
+                            <div className="contact-item">
+                                <div className="icon">
+                                    <i className="fas fa-map-marker-alt"></i>
                                     <span>Location</span>
                                 </div>
                                 <p>
                                 </p>
                             </div>
-                            <div class="contact-item">
-                                <div class="icon">
-                                    <i class="fas fa-envelope"></i>
+                            <div className="contact-item">
+                                <div className="icon">
+                                    <i className="fas fa-envelope"></i>
                                     <span>Email</span>
                                 </div>
                                 <p>
@@ -31,9 +31,9 @@ function Contact() {
                     </Col>
                     <Col xs>
                         <div className='location'>
-                            <div class="contact-item">
-                                <div class="icon">
-                                    <i class="fas fa-user-graduate"></i>
+                            <div className="contact-item">
+                                <div className="icon">
+                                    <i className="fas fa-user-graduate"></i>
                                     <span>Mobile Number</span>
                                 </div>
                                 <p>
@@ -43,13 +43,13 @@ function Contact() {
                     </Col>
                 </Row>
             </Container>
-            <div class="contact-container">
+            <div className="contact-container">
 
-                <div class="contact-content-con">
-                    <div class="left-contact">
+                <div className="contact-content-con">
+                    <div className="left-contact">
 
 
-                        <div class="contact-info">
+                        <div className="contact-info">
 
 
                         </div>

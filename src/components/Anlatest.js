@@ -42,18 +42,18 @@ const Anlatest = () => {
     useEffect(() => { getMovie() }, [])
     console.log(movieList)
     return (
-        <><h1> Tending on Tv</h1><div class="cards">
+        <><h1> Tending on Tv</h1><div className="cards">
             {movieList.map((movie) => (
-                <article class="card">
+                <article className="card">
                     <>
                         <img alt='poster' id='poster' src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
-                        <div class="content1 content">
-                            <h2 key={movie.id}>{movie.original_title}</h2>
+                        <div className="content1 content">
+                            <h2 key={movie.id}>{movie.name}</h2>
                         </div>
-                        <div class="content2 content">
-                            <p key={movie.id}>{movie.release_date}</p>
+                        <div className="content2 content">
+                            <p key={movie.id}>{movie.first_air_date}</p>
                         </div>
-                        <div class="content3 content">
+                        <div className="content3 content">
                             <ReadMore
                                 text={movie.overview} maxWords={20} />
                         </div>

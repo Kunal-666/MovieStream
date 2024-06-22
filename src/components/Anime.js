@@ -67,7 +67,7 @@ function SearchA() {
                                 aria-describedby="basic-addon2"
                             />
                             <Button variant="outline-secondary" id='search' onClick={getSearch}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
                                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                                 </svg>
                             </Button>
@@ -75,27 +75,27 @@ function SearchA() {
                     </Col>
                 </Row>
             </Container>
-            <div class="search-container">
+            <div className="search-container">
 
 
             </div>
 
-            <div class="cards">
+            <div className="cards">
 
                 {SearchAList.map((Search) => (
 
-                    <article class="card">
+                    <article className="card">
 
                         <> <img id='poster' alt='poster' src={`https://image.tmdb.org/t/p/w500${Search.poster_path}`} />
-                            <div class="content1 content">
+                            <div className="content1 content">
                                 <h2 key={Search.id}>{Search.original_title}</h2>
                             </div>
-                            <div class="content2 content">
+                            <div className="content2 content">
                                 <p key={Search.id}>{Search.release_date}</p>
 
                             </div>
 
-                            <div class="content3 content">
+                            <div className="content3 content">
                                 <ReadMore
                                     text={Search.overview} maxWords={20} />
                             </div>
