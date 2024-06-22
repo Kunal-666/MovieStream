@@ -9,10 +9,10 @@ function BasicExample(props) {
     return (
         <Navbar expand="lg" className={`bg-body-${props.mode} navbar-${props.mode} bg-${props.mode}`}>
             <Container>
-                <Navbar.Brand href="/" className="brand">
+                <Link to="/" className="brand">
                     {/* <img src="/path/to/logo.png" alt="Logo" className="brand-logo" /> */}
-                    MovieStream
-                </Navbar.Brand>
+                    <b>MovieStream</b>
+                </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

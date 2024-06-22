@@ -19,18 +19,18 @@ function App() {
     if (mode === 'light') {
       setmode('dark');
       document.body.style.backgroundColor = '#000'
-      document.body.style.color = "#fff"
+      document.body.style.color = "#f8f9fa"
       var r = document.querySelector(':root');
       r.style.setProperty('--blue', 'black');
-      r.style.setProperty('--text', 'white');
+      r.style.setProperty('--text', '#f8f9fa');
     }
     else {
       setmode('light');
-      document.body.style.backgroundColor = '#fff'
-      document.body.style.color = "#000"
+      document.body.style.backgroundColor = '#f8f9fa'
+      document.body.style.color = "#333"
       var t = document.querySelector(':root');
-      t.style.setProperty('--blue', 'white');
-      t.style.setProperty('--text', 'black');
+      t.style.setProperty('--blue', '#f8f9fa');
+      t.style.setProperty('--text', '#333');
     }
   }
   return (
