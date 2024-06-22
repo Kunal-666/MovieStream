@@ -2,38 +2,50 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Form from 'react-bootstrap/Form';
-// import { NavLink } from "react-bootstrap";
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
 function BasicExample(props) {
     return (
-        <><Navbar expand="lg" className={`bg-body-${props.mode} navbar-${props.mode} bg-${props.mode}`}>
-            <Container >
-                <Navbar.Brand href="/">MovieStream</Navbar.Brand>
+        <Navbar expand="lg" className={`bg-body-${props.mode} navbar-${props.mode} bg-${props.mode}`}>
+            <Container>
+                <Navbar.Brand href="/" className="brand">
+                    {/* <img src="/path/to/logo.png" alt="Logo" className="brand-logo" /> */}
+                    MovieStream
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Link style={{ color: 'grey', margin: '5px', textDecoration: 'none' }} className='Link' to="/Movies">Movies</Link>
-                        <Link style={{ color: 'grey', margin: '5px', textDecoration: 'none' }} className='Link' to="/Tv">Tv</Link>
-                        <Link style={{ color: 'grey', margin: '5px', textDecoration: 'none' }} className='Link' to="/India">India</Link>
-                        <Link style={{ color: 'grey', margin: '5px', textDecoration: 'none' }} className='Link' to="/About">About</Link>
-                        <Link style={{ color: 'grey', margin: '5px', textDecoration: 'none' }} className='Link' to="/Contact">ContactUs</Link>
-                        {/* <Link style={{ color: 'grey', margin: '5px', textDecoration: 'none' }} className='Link' to="/Tes">Test</Link> */}
+                        <Link className='nav-link' to="/Movies">
+                            <i className="fas fa-film"></i> Movies
+                        </Link>
+                        <Link className='nav-link' to="/Tv">
+                            <i className="fas fa-tv"></i> TV
+                        </Link>
+                        <Link className='nav-link' to="/Anime">
+                            <i className="fas fa-play"></i> Anime
+                        </Link>
+                        <Link className='nav-link' to="/India">
+                            <i className="fas fa-globe"></i> India
+                        </Link>
+                        <Link className='nav-link' to="/About">
+                            <i className="fas fa-info-circle"></i> About
+                        </Link>
+                        <Link className='nav-link' to="/Contact">
+                            <i className="fas fa-envelope"></i> Contact Us
+                        </Link>
                     </Nav>
-                </Navbar.Collapse >
-                <Form >
+                </Navbar.Collapse>
+                <Form>
                     <Form.Check
                         type="switch"
                         id="custom-switch"
-                        label={props.mode}
+                        label={props.mode === 'light' ? 'Dark Mode' : 'Light Mode'}
                         onClick={props.toggleMode}
                     />
                 </Form>
-            </Container >
-        </Navbar >
-        </>
+            </Container>
+        </Navbar>
     );
 }
 

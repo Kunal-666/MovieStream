@@ -1,9 +1,13 @@
 // CardDetails.js
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import Spinner from 'react-bootstrap/Spinner';
+import './tv.css';
+
 const CardDetails = () => {
     const { id } = useParams();
     console.log(id)
@@ -33,67 +37,81 @@ const CardDetails = () => {
     }
 
 
-    const iframeRef = useRef(null);
+    // const iframeRef = useRef(null);
 
 
     return (
         <div>
-            <Container>
-                <Row>
-                    <h3>{movieList.title}</h3>
-                    <p>
-                        {movieList.release_date}
-                    </p>
-                    <iframe ref={iframeRef} src={`https://vidsrc.me/embed/movie?tmdb=${id}`} width="100%" height="360" title="Video" allowFullScreen />
-
-                    <Col xs>
-                        <Row>
-                            <h3>
-                                Genres
-                            </h3>
-                            <div className="column32">
-
-                                {g.map((movie) => (
-                                    <span className="tag1">{movie + ', '}</span>
-
-                                ))}
-                            </div>
-                            <h3>
-                                Tagline
-                            </h3>
-                            <p style={{ textAlign: 'justify' }}>{movieList.tagline}</p>
-                            <h3>
-                                Runtime
-                            </h3>
-                            <p>{movieList.runtime + " min"}</p>
-                        </Row>
-                    </Col>
-                    <Col xs>
-                        <Row>
-
-                            <h3>
-                                Budget
-                            </h3>
-                            <p>{movieList.budget + "$"}</p>
-                            <h3>
-                                Revenue
-                            </h3>
-                            <p>{movieList.revenue + "$"}</p>
-
+            <Container className="mt-4">
+                {movieList ? (
+                    <>
+                        <Row className="mb-4">
+                            <Col>
+                                <h3 className="text-center text-primary">{movieList.title}</h3>
+                                <div className="video-wrapper mb-4">
+                                    <iframe
+                                        src={`https://vidsrc.me/embed/movie?tmdb=${id}`}
+                                        width="100%"
+                                        height="360"
+                                        title="Video"
+                                        allowFullScreen
+                                    />
+                                </div>
+                            </Col>
                         </Row>
 
-                    </Col>
-                    <Col xs>
                         <Row>
-                            <h3>
-                                Overview
-                            </h3>
-                            <p style={{ textAlign: 'justify' }}>{movieList.overview}</p>
+                            <Col md={4}>
+                                <Card className="shadow-sm mb-4">
+                                    <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${movieList.poster_path}`} alt='poster' />
+                                    <Card.Body>
+                                        <Card.Title>Genres</Card.Title>
+                                        <Card.Text>{movieList.genres && movieList.genres.map(g => g.name).join(', ')}</Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                            <Col md={8}>
+                                <Card className="shadow-sm mb-4">
+                                    <Card.Body>
+                                        <Row>
+                                            <Col md={6}>
+                                                <Card.Title>Tagline</Card.Title>
+                                                <Card.Text>{movieList.tagline}</Card.Text>
+                                                <Card.Title>Released Date</Card.Title>
+                                                <Card.Text>{movieList.release_date}</Card.Text>
+                                                <Card.Title>Length</Card.Title>
+                                                <Card.Text>{movieList.runtime + " min"}</Card.Text>
+                                            </Col>
+                                            <Col md={6}>
+                                                <Card.Title>Budget</Card.Title>
+                                                <Card.Text>{movieList.budget + "$"}</Card.Text>
+                                                <Card.Title>Revenue</Card.Title>
+                                                <Card.Text>{movieList.revenue + "$"}</Card.Text>
+                                            </Col>
+                                        </Row>
+
+
+                                    </Card.Body>
+                                </Card>
+
+                                <Card className="shadow-sm">
+                                    <Card.Body>
+                                        <Card.Title>Overview</Card.Title>
+                                        <Card.Text>{movieList.overview}</Card.Text>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
                         </Row>
-                    </Col>
-                </Row><Row>
-                </Row>
-            </Container >
+                    </>
+                ) : (
+                    <Row className="justify-content-center">
+                        <Spinner animation="border" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </Spinner>
+                    </Row>
+                )}
+            </Container>
+
         </div >
     );
 };

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+// import './movie.css';
 
 const ReadMore = ({ text, maxWords }) => {
     const words = String(text).split(' ');
@@ -16,7 +17,7 @@ const ReadMore = ({ text, maxWords }) => {
             {showMore ? (
                 <div>
                     {truncatedText} {remainingText}
-                    <button onClick={toggleReadMore}>
+                    <button className="read-more-button" onClick={toggleReadMore}>
                         Read less
                     </button>
                 </div>
@@ -24,7 +25,7 @@ const ReadMore = ({ text, maxWords }) => {
                 <div>
                     {truncatedText}
                     {remainingText && (
-                        <button onClick={toggleReadMore}>
+                        <button className="read-more-button" onClick={toggleReadMore}>
                             Read More
                         </button>
                     )}
@@ -34,56 +35,115 @@ const ReadMore = ({ text, maxWords }) => {
     );
 };
 
+const FilterBar = ({ filters, handleChange, handleSubmit }) => {
+    return (
+        <form className="filter-bar" onSubmit={handleSubmit}>
+            <select name="genre" value={filters.genre} onChange={handleChange}>
+                <option value="">All Genres</option>
+                <option value="28">Action</option>
+                <option value="35">Comedy</option>
+                <option value="18">Drama</option>
+                {/* Add more genres as needed */}
+            </select>
+            <select name="year" value={filters.year} onChange={handleChange}>
+                <option value="">All Years</option>
+                {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                ))}
+            </select>
+            <select name="language" value={filters.language} onChange={handleChange}>
+                <option value="">All Languages</option>
+                <option value="hi">Hindi</option>
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                {/* Add more languages as needed */}
+            </select>
+            {/* <select name="country" value={filters.country} onChange={handleChange}>
+                <option value="">All Countries</option>
+                <option value="US">United States</option>
+                <option value="IN">India</option>
+                <option value="FR">France</option>
+            </select> */}
+            <select name="sort" value={filters.sort} onChange={handleChange}>
+                <option value="">Sort By</option>
+                <option value="popularity.desc">Most Popular</option>
+                <option value="release_date.desc">Newest First</option>
+                <option value="release_date.asc">Oldest First</option>
+            </select>
+            <button type="submit">Apply Filters</button>
+        </form>
+    );
+};
+
 function Movie() {
+    const [movieList, setMovieList] = useState([]);
+    const [filters, setFilters] = useState({
+        genre: '',
+        year: '',
+        language: '',
+        country: '',
+        sort: ''
+    });
 
-    const [movieList, setMovieList] = useState([])
+    const getMovies = () => {
+        const { genre, year, language, country, sort } = filters;
+        const query = [
+            genre && `with_genres=${genre}`,
+            year && `primary_release_year=${year}`,
+            language && `with_original_language=${language}`,
+            country && `region=${country}`,
+            sort && `sort_by=${sort}`
+        ].filter(Boolean).join('&');
 
-    const getMovie = () => {
-        fetch('https://api.themoviedb.org/3/trending/movie/day?api_key=0d0f1379d0c8b95596f350605ec7f984')
+        fetch(`https://api.themoviedb.org/3/discover/movie?api_key=0d0f1379d0c8b95596f350605ec7f984&${query}`)
             .then(res => res.json())
-            .then(json => setMovieList(json.results))
-    }
-    useEffect(() => { getMovie() }, [])
+            .then(json => setMovieList(json.results));
+    };
 
-    console.log(movieList)
+    useEffect(() => {
+        getMovies();
+    }, [filters]);
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFilters({
+            ...filters,
+            [name]: value
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        getMovies();
+    };
 
     return (
-        <><h1> Most Popular Movies</h1>
+        <div>
+            <h1 className="title">Most Popular Movies</h1>
+            <FilterBar filters={filters} handleChange={handleChange} handleSubmit={handleSubmit} />
             <div className="cards">
-
                 {movieList.map((movie) => (
-
-                    <article className="card">
-
-                        <>
-                            <img alt='poster' id='poster' src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
-                            <div>
-                                <div className="content1 content">
-                                    <h2 key={movie.id}>{movie.original_title}</h2>
-                                </div>
-                                <div className="content2 content">
-                                    <p key={movie.id}>{movie.release_date}</p>
-
-                                </div>
-
-                                <div className="content3 content">
-                                    <ReadMore
-                                        text={movie.overview} maxWords={20} />
-                                </div>
+                    <article className="card" key={movie.id}>
+                        <img alt='poster' className='poster' src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} />
+                        <div className="card-content">
+                            <div className="content-title">
+                                <h2>{movie.original_title}</h2>
                             </div>
-                            <footer>
-                                <p key={movie.id}>{movie.vote_average}</p>
-                                <Link to={`/card/${movie.id}`} key={movie.id}>
-                                    watch
-                                </Link>
-                            </footer>
-                        </>
-
+                            <div className="content-info">
+                                <p>Release Date: {movie.release_date}</p>
+                                <ReadMore text={movie.overview} maxWords={20} />
+                            </div>
+                        </div>
+                        <footer className="card-footer">
+                            <p>Rating: {movie.vote_average}</p>
+                            <Link to={`/movie/${movie.id}`} className="watch-link">Watch</Link>
+                        </footer>
                     </article>
                 ))}
-            </div ></>
-    )
+            </div>
+        </div>
+    );
 }
 
-export default Movie
+export default Movie;

@@ -1,6 +1,6 @@
 import React from 'react'
 import Anlatest from '../components/Anlatest';
-import SearchA from '../components/Anime';
+import SearchA from '../components/Tvserch';
 
 function Tv() {
     return (

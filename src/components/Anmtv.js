@@ -1,19 +1,20 @@
-// CardDetails.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Card from 'react-bootstrap/Card';
+import Spinner from 'react-bootstrap/Spinner';
+import './tv.css';
 
 const CardDetails1 = () => {
     const { id } = useParams();
 
     const [Season, setSeason] = useState(localStorage.getItem('seas') || '');
     const [Episode, setEpisode] = useState(localStorage.getItem('epis') || '');
-    const [movieList, setMovieList] = useState({});
-    const [EpisodeList, setEpisodeList] = useState({});
-    const [selectedSeason, setSelectedSeason] = useState(Season);
-    const [selectedEpisode, setSelectedEpisode] = useState(Episode);
+    const [movieList, setMovieList] = useState(null);
+    const [EpisodeList, setEpisodeList] = useState(null);
 
     const apiKey = '0d0f1379d0c8b95596f350605ec7f984'; // Replace with your TMDB API key
 
@@ -35,6 +36,8 @@ const CardDetails1 = () => {
         const newSeason = event.target.value;
         setSeason(newSeason);
         localStorage.setItem('seas', newSeason);
+        setEpisode(''); // Reset episode selection when season changes
+        setEpisodeList(null); // Clear episode list when season changes
     };
 
     const handleEpisodeChange = (event) => {
@@ -43,78 +46,90 @@ const CardDetails1 = () => {
         localStorage.setItem('epis', newEpisode);
     };
 
-    const handleSubmit = () => {
-        setSelectedSeason(Season);
-        setSelectedEpisode(Episode);
-    };
-
-    const episodeOptions = EpisodeList.episodes ? EpisodeList.episodes.map((ep) => (
+    const episodeOptions = EpisodeList?.episodes ? EpisodeList.episodes.map((ep) => (
         <option key={ep.episode_number} value={ep.episode_number}>{ep.episode_number}</option>
     )) : [];
 
     const seasonOptions = [];
-    for (let i = 1; i <= (movieList.number_of_seasons || 1); i++) {
+    for (let i = 1; i <= (movieList?.number_of_seasons || 1); i++) {
         seasonOptions.push(<option key={i} value={i}>{i}</option>);
     }
 
     return (
-        <Container>
-            <Row>
-                <h3>{movieList.name}</h3>
-                <iframe
-                    src={`https://vidsrc.to/embed/tv/${id}/${selectedSeason}/${selectedEpisode}`}
-                    style={{ padding: 10 }}
-                    width="100%"
-                    height="360"
-                    title="Video"
-                    allowFullScreen
-                />
-            </Row>
-            <br />
-            <Row>
-                <Col>
-                    <label htmlFor="season">Choose a Season:</label>
-                    <select id='s' value={Season} onChange={handleSeasonChange}>
-                        <option value="">Select a Season</option>
-                        {seasonOptions}
-                    </select>
-                </Col>
-                <Col>
-                    <label htmlFor="episode">Choose an Episode:</label>
-                    <select id='e' value={Episode} onChange={handleEpisodeChange}>
-                        <option value="">Select an Episode</option>
-                        {episodeOptions}
-                    </select>
-                </Col>
-                <Col>
-                    <button onClick={handleSubmit}>Submit</button>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Row>
+        <Container className="mt-4">
+            {movieList ? (
+                <>
+                    <Row className="mb-4">
                         <Col>
-                            <img alt='poster' style={{ width: 200, height: 300 }} src={`https://image.tmdb.org/t/p/w500${movieList.poster_path}`} />
+                            <h3 className="text-center text-primary">{movieList.name}</h3>
+                            <div className="video-wrapper mb-4">
+                                <iframe
+                                    src={`https://vidsrc.to/embed/tv/${id}/${Season}/${Episode}`}
+                                    width="100%"
+                                    height="360"
+                                    title="Video"
+                                    allowFullScreen
+                                />
+                            </div>
                         </Col>
-                        <Col>
-                            <h3>Genres</h3>
-                            <div>{movieList.genres && movieList.genres.map(g => g.name).join(', ')}</div>
-                            <h3>Tagline</h3>
-                            <p>{movieList.tagline}</p>
+                    </Row>
+                    <Row className="mb-4 align-items-end">
+                        <Col md={5}>
+                            <Form.Group controlId="seasonSelect">
+                                <Form.Label className="font-weight-bold">Choose a Season:</Form.Label>
+                                <Form.Control as="select" value={Season} onChange={handleSeasonChange}>
+                                    <option value="">Select a Season</option>
+                                    {seasonOptions}
+                                </Form.Control>
+                            </Form.Group>
                         </Col>
-                        <Col>
-                            <h3>Total Seasons</h3>
-                            <p>{movieList.number_of_seasons}</p>
-                            <h3>Total Episodes in Season {selectedSeason}</h3>
-                            <p>{EpisodeList.episodes ? EpisodeList.episodes.length : 0}</p>
+                        <Col md={5}>
+                            <Form.Group controlId="episodeSelect">
+                                <Form.Label className="font-weight-bold">Choose an Episode:</Form.Label>
+                                <Form.Control as="select" value={Episode} onChange={handleEpisodeChange} disabled={!EpisodeList}>
+                                    <option value="">Select an Episode</option>
+                                    {episodeOptions}
+                                </Form.Control>
+                            </Form.Group>
                         </Col>
                     </Row>
                     <Row>
-                        <h3>Overview</h3>
-                        <p>{movieList.overview}</p>
+                        <Col md={4}>
+                            <Card className="shadow-sm mb-4">
+                                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${movieList.poster_path}`} alt='poster' />
+                                <Card.Body>
+                                    <Card.Title>Genres</Card.Title>
+                                    <Card.Text>{movieList.genres && movieList.genres.map(g => g.name).join(', ')}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                        <Col md={8}>
+                            <Card className="shadow-sm mb-4">
+                                <Card.Body>
+                                    <Card.Title>Tagline</Card.Title>
+                                    <Card.Text>{movieList.tagline}</Card.Text>
+                                    <Card.Title>Total Seasons</Card.Title>
+                                    <Card.Text>{movieList.number_of_seasons}</Card.Text>
+                                    <Card.Title>Total Episodes in Season {Season}</Card.Title>
+                                    <Card.Text>{EpisodeList?.episodes ? EpisodeList.episodes.length : 0}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                            <Card className="shadow-sm">
+                                <Card.Body>
+                                    <Card.Title>Overview</Card.Title>
+                                    <Card.Text>{movieList.overview}</Card.Text>
+                                </Card.Body>
+                            </Card>
+                        </Col>
                     </Row>
-                </Col>
-            </Row>
+                </>
+            ) : (
+                <Row className="justify-content-center">
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                </Row>
+            )}
         </Container>
     );
 };

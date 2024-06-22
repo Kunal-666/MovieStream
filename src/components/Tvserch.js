@@ -22,7 +22,7 @@ const ReadMore = ({ text, maxWords }) => {
                 <div>
                     {truncatedText} {remainingText}
                     <button className="read-more-button" onClick={toggleReadMore}>
-                        Read less
+                        Read Less
                     </button>
                 </div>
             ) : (
@@ -38,21 +38,19 @@ const ReadMore = ({ text, maxWords }) => {
         </div>
     );
 };
-function Sr() {
 
-    const [SearchList, setSearchList] = useState([])
+function SearchA() {
+
+    const [SearchAList, setSearchAList] = useState([])
     const getSearch = () => {
         var query = document.getElementById('qr').value
 
         console.log('value is:', query);
-        fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&api_key=0d0f1379d0c8b95596f350605ec7f984`)
+        fetch(`https://api.themoviedb.org/3/search/tv?query=${query}&api_key=0d0f1379d0c8b95596f350605ec7f984`)
             .then(res => res.json())
-            .then(json => setSearchList(json.results))
+            .then(json => setSearchAList(json.results))
     }
     useEffect(() => { getSearch() }, [])
-
-
-
 
     return (
         <>
@@ -69,7 +67,7 @@ function Sr() {
                                 aria-describedby="basic-addon2"
                             />
                             <Button variant="outline-secondary" id='search' onClick={getSearch}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                                 </svg>
                             </Button>
@@ -77,29 +75,29 @@ function Sr() {
                     </Col>
                 </Row>
             </Container>
-            <div className="search-container">
+            <div class="search-container">
 
 
             </div>
 
-            <div className="cards">
+            <div class="cards">
 
-                {SearchList.map((Search) => (
+                {SearchAList.map((Search) => (
 
                     <article className="card" key={Search.id}>
                         <img alt='poster' className='poster' src={`https://image.tmdb.org/t/p/w500${Search.poster_path}`} />
                         <div className="card-content">
                             <div className="content-title">
-                                <h2>{Search.original_title}</h2>
+                                <h2>{Search.name}</h2>
                             </div>
                             <div className="content-info">
-                                <p>Release Date: {Search.release_date}</p>
+                                <p>First Air Date: {Search.first_air_date}</p>
                                 <ReadMore text={Search.overview} maxWords={20} />
                             </div>
                         </div>
                         <footer className="card-footer">
                             <p>Rating: {Search.vote_average}</p>
-                            <Link to={`/movie/${Search.id}`} className="watch-link">Watch</Link>
+                            <Link to={`/tv/${Search.id}`} className="watch-link">Watch</Link>
                         </footer>
                     </article>
                 ))}
@@ -108,5 +106,4 @@ function Sr() {
     )
 }
 
-
-export default Sr
+export default SearchA

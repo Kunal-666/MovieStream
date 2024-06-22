@@ -1,224 +1,121 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
-
+// import './all.css'; // Import the CSS file
 
 function All() {
+  const [HomeList, setHomeList] = useState([]);
+  const [MpPList, setMpPList] = useState([]);
+  const [MtrPList, setMtrPList] = useState([]);
+  const [tvList, setTvList] = useState([]);
+  const [tvPList, setTvPList] = useState([]);
+  const [TtrPList, setTtrPList] = useState([]);
+  const [genres, setGenres] = useState({});
 
-  // Top rated movie
-  const [HomeList, setHomeList] = useState([])
-  const getHome = () => {
+  const fetchGenres = async () => {
+    const responses = await Promise.all([
+      fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=0d0f1379d0c8b95596f350605ec7f984').then(res => res.json()),
+      fetch('https://api.themoviedb.org/3/genre/tv/list?api_key=0d0f1379d0c8b95596f350605ec7f984').then(res => res.json())
+    ]);
+
+    const allGenres = [...responses[0].genres, ...responses[1].genres];
+    const genresMap = {};
+    allGenres.forEach(genre => {
+      genresMap[genre.id] = genre.name;
+    });
+
+    setGenres(genresMap);
+  };
+
+  useEffect(() => {
+    fetchGenres();
     fetch('https://api.themoviedb.org/3/movie/top_rated?api_key=0d0f1379d0c8b95596f350605ec7f984')
       .then(res => res.json())
-      .then(json => setHomeList(json.results))
-  }
-  useEffect(() => { getHome() }, [])
-  console.log(HomeList)
-
-  // Popular movies
-  const [MpPList, setMpPList] = useState([])
-  const getMp = () => {
+      .then(json => setHomeList(json.results));
     fetch('https://api.themoviedb.org/3/movie/popular?api_key=0d0f1379d0c8b95596f350605ec7f984')
       .then(res => res.json())
-      .then(json => setMpPList(json.results))
-  }
-  useEffect(() => { getMp() }, [])
-  console.log(MpPList)
-
-  // Trending Movie
-  const [MtrPList, setMtrPList] = useState([])
-  const getMtr = () => {
+      .then(json => setMpPList(json.results));
     fetch('https://api.themoviedb.org/3/trending/movie/day?api_key=0d0f1379d0c8b95596f350605ec7f984')
       .then(res => res.json())
-      .then(json => setMtrPList(json.results))
-  }
-  useEffect(() => { getMtr() }, [])
-  console.log(MtrPList)
-
-  // top rated tv
-  const [tvList, setTvList] = useState([])
-  const gettv = () => {
+      .then(json => setMtrPList(json.results));
     fetch('https://api.themoviedb.org/3/tv/top_rated?api_key=0d0f1379d0c8b95596f350605ec7f984')
       .then(res => res.json())
-      .then(json => setTvList(json.results))
-  }
-  useEffect(() => { gettv() }, [])
-  console.log(tvList)
-  // Tv popular
-  const [tvPList, setTvPList] = useState([])
-  const getPtv = () => {
+      .then(json => setTvList(json.results));
     fetch('https://api.themoviedb.org/3/tv/popular?api_key=0d0f1379d0c8b95596f350605ec7f984')
       .then(res => res.json())
-      .then(json => setTvPList(json.results))
-  }
-  useEffect(() => { getPtv() }, [])
-  console.log(tvPList)
-  //Trendig on tv
-  const [TtrPList, setTtrPList] = useState([])
-  const getTtr = () => {
+      .then(json => setTvPList(json.results));
     fetch('https://api.themoviedb.org/3/trending/tv/day?api_key=0d0f1379d0c8b95596f350605ec7f984')
       .then(res => res.json())
-      .then(json => setTtrPList(json.results))
-  }
-  useEffect(() => { getTtr() }, [])
-  console.log(TtrPList)
+      .then(json => setTtrPList(json.results));
+  }, []);
+
+  const getGenreNames = (genreIds) => genreIds.map(id => genres[id]).join(', ');
+
   const reduceRecipes = (acc, cur, index) => {
     const groupIndex = Math.floor(index / 4);
     if (!acc[groupIndex]) acc[groupIndex] = [];
     acc[groupIndex].push(cur);
-    console.log(acc);
     return acc;
   };
+
+  const renderCarousel = (items, type) => (
+    <Carousel>
+      {items.reduce(reduceRecipes, []).map((group, index) => (
+        <Carousel.Item key={index}>
+          <div className="d-flex justify-content-center">
+            {group.map((item, idx) => (
+              <Card key={idx} className="movie-card">
+                <Link to={`/${type}/${item.id}`}>
+                  <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
+                  <div className="hover-details">
+                    <h5>{item.title || item.name}</h5>
+                    <p>{getGenreNames(item.genre_ids)}</p>
+                    <p>{item.release_date || item.first_air_date}</p>
+                  </div>
+                </Link>
+              </Card>
+            ))}
+          </div>
+        </Carousel.Item>
+      ))}
+    </Carousel>
+  );
+
   return (
-    <div>
+    <div className="all-container">
       <Container>
-        <h3>Top rated movies</h3>
-        <Carousel>
-          {HomeList.reduce(reduceRecipes, []).map((item, index) => (
-            <Carousel.Item key={index}>
-              <div className="d-flex justify-content-center">
-                {item.map((item, index) => {
-                  return (
-                    <Card key={index} style={{ width: "18rem" }}>
-                      <Link to={`/card/${item.id}`} >
-                        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
-                      </Link>
-
-                      {/* <Card.Body>
-                        <Card.Title>{item.title}</Card.Title>
-                      </Card.Body> */}
-                    </Card>
-                  );
-                })}
-              </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+        <h3 className="text-center my-4 section-title">Top Rated Movies</h3>
+        {renderCarousel(HomeList, 'movie')}
       </Container>
-      <Container>
-        <h3>Popular movies</h3>
-        <Carousel>
-          {MpPList.reduce(reduceRecipes, []).map((item, index) => (
-            <Carousel.Item key={index}>
-              <div className="d-flex justify-content-center">
-                {item.map((item, index) => {
-                  return (
-                    <Card key={index} style={{ width: "18rem" }}>
-                      <Link to={`/card/${item.id}`} >
-                        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
-                      </Link>
 
-                      {/* <Card.Body>
-                        <Card.Title>{item.title}</Card.Title>
-                      </Card.Body> */}
-                    </Card>
-                  );
-                })}
-              </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+      <Container>
+        <h3 className="text-center my-4 section-title">Popular Movies</h3>
+        {renderCarousel(MpPList, 'movie')}
       </Container>
-      <Container>
-        <h3>Trending movies</h3>
-        <Carousel>
-          {MtrPList.reduce(reduceRecipes, []).map((item, index) => (
-            <Carousel.Item key={index}>
-              <div className="d-flex justify-content-center">
-                {item.map((item, index) => {
-                  return (
-                    <Card key={index} style={{ width: "18rem" }}>
-                      <Link to={`/card/${item.id}`} >
-                        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
-                      </Link>
 
-                      {/* <Card.Body>
-                        <Card.Title>{item.title}</Card.Title>
-                      </Card.Body> */}
-                    </Card>
-                  );
-                })}
-              </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+      <Container>
+        <h3 className="text-center my-4 section-title">Trending Movies</h3>
+        {renderCarousel(MtrPList, 'movie')}
       </Container>
-      <Container>
-        <h3>Popular on tv</h3>
-        <Carousel>
-          {tvPList.reduce(reduceRecipes, []).map((item, index) => (
-            <Carousel.Item key={index}>
-              <div className="d-flex justify-content-center">
-                {item.map((item, index) => {
-                  return (
-                    <Card key={index} style={{ width: "18rem" }}>
-                      <Link to={`/ac/${item.id}`} >
-                        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
-                      </Link>
 
-                      {/* <Card.Body>
-                        <Card.Title>{item.name}</Card.Title>
-                      </Card.Body> */}
-                    </Card>
-                  );
-                })}
-              </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+      <Container>
+        <h3 className="text-center my-4 section-title">Popular on TV</h3>
+        {renderCarousel(tvPList, 'tv')}
       </Container>
-      <Container>
-        <h3>Top rated on tv</h3>
-        <Carousel>
-          {tvList.reduce(reduceRecipes, []).map((item, index) => (
-            <Carousel.Item key={index}>
-              <div className="d-flex justify-content-center">
-                {item.map((item, index) => {
-                  return (
-                    <Card key={index} style={{ width: "18rem" }}>
-                      <Link to={`/ac/${item.id}`} >
-                        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
-                      </Link>
 
-                      {/* <Card.Body>
-                        <Card.Title>{item.name}</Card.Title>
-                      </Card.Body> */}
-                    </Card>
-                  );
-                })}
-              </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+      <Container>
+        <h3 className="text-center my-4 section-title">Top Rated on TV</h3>
+        {renderCarousel(tvList, 'tv')}
       </Container>
-      <Container>
-        <h3>Trending on tv</h3>
-        <Carousel>
-          {TtrPList.reduce(reduceRecipes, []).map((item, index) => (
-            <Carousel.Item key={index}>
-              <div className="d-flex justify-content-center">
-                {item.map((item, index) => {
-                  return (
-                    <Card key={index} style={{ width: "18rem" }}>
-                      <Link to={`/ac/${item.id}`} >
-                        <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
-                      </Link>
 
-                      {/* <Card.Body>
-                        <Card.Title>{item.name}</Card.Title>
-                      </Card.Body> */}
-                    </Card>
-                  );
-                })}
-              </div>
-            </Carousel.Item>
-          ))}
-        </Carousel>
+      <Container>
+        <h3 className="text-center my-4 section-title">Trending on TV</h3>
+        {renderCarousel(TtrPList, 'tv')}
       </Container>
     </div>
-  )
+  );
 }
 
-export default All
+export default All;
