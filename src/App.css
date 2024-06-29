@@ -31,9 +31,17 @@ body {
 
 }
 
-.brand-logo {
-    width: 40px;
-    height: 40px;
+.brand .lo {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--text);
+    /* margin-right: 10px; */
+}
+
+.lo .st {
+    font-size: 1.0em;
+    font-weight: bold;
+    color: red;
     margin-right: 10px;
 }
 
@@ -121,8 +129,46 @@ img {
     flex-wrap: wrap;
 }
 
-.filter-bar select,
-.filter-bar button {
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown-content div {
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-content input {
+    margin-right: 8px;
+}
+
+.dropdown button {
+    background-color: #f9f9f9;
+    color: #000;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+.dropdown button:focus+.dropdown-content,
+.dropdown button:hover+.dropdown-content,
+.dropdown-content:hover {
+    display: block;
+}
+
+select,
+button {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -581,4 +627,116 @@ a[data-tooltip][data-placement="top"]::after {
 .footer-link:hover {
     color: #0056b3;
     text-decoration: underline;
+}
+
+.about-section {
+    padding: 50px;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.logo1 {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-size: 3em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin: 20px 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo1 .stream1 {
+    color: #ff000d;
+    /* Change this to your desired color */
+}
+
+.about-section h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.about-section p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #555;
+}
+
+.features-section,
+.team-section,
+.contact-section {
+    padding: 30px 50px;
+    text-align: left;
+    background-color: #ffffff;
+}
+
+.features-section h2,
+.team-section h2,
+.contact-section h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.features-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.features-section li {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.contact-section a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-section a:hover {
+    text-decoration: underline;
+}
+
+.contact {
+    .contact-section {
+        padding: 50px;
+        background-color: #f4f4f4;
+        border-radius: 8px;
+    }
+
+    .contact-section h4 {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+
+    .contact-section p {
+        font-size: 1.2em;
+        line-height: 1.6;
+        color: #555;
+        margin-bottom: 40px;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    .mt-3 {
+        margin-top: 1rem;
+    }
+
 }

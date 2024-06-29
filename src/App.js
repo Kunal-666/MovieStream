@@ -13,6 +13,7 @@ import India from './Pages/India';
 import { useState } from "react";
 import { Container, Row, Col } from 'react-bootstrap';
 import Anime from "./Pages/Anime";
+import Index1 from "./Pages/Index1";
 function App() {
   const [mode, setmode] = useState('light')
   const toggleMode = () => {
@@ -39,7 +40,7 @@ function App() {
         <BasicExample mode={mode} toggleMode={toggleMode} />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/index" element={<Home />} />
+          <Route path="/index" element={<Index1 />} />
           <Route path="/Tv" element={<Tv />} />
           <Route path="/Movies" element={<Movies />} />
           <Route path="/India" element={<India />} />

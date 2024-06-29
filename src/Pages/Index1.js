@@ -1,15 +1,13 @@
 import React from 'react'
-import All from '../components/All'
 import Index2 from '../components/Index2'
 
-function Home() {
+function Index1() {
     return (
 
-        <div>
+        <div className='home'>
             <Index2 />
-            <All />
         </div>
     )
 }
 
-export default Home
+export default Index1

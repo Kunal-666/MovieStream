@@ -42,10 +42,10 @@ const ReadMore = ({ text, maxWords }) => {
 const FilterBar = ({ filters, handleChange, handleSubmit }) => {
     return (
         <form className="filter-bar" onSubmit={handleSubmit}>
-            {/* <select name="type" value={filters.type} onChange={handleChange}>
+            <select name="type" value={filters.type} onChange={handleChange}>
                 <option value="movie">Movie</option>
                 <option value="tv">TV Show</option>
-            </select> */}
+            </select>
             {/* <select name="genre" value={filters.genre} onChange={handleChange}>
                 <option value="">All Genres</option>
                 <option value="28">Action</option>
@@ -69,7 +69,7 @@ const FilterBar = ({ filters, handleChange, handleSubmit }) => {
     );
 };
 
-function Sr() {
+function Index2() {
     const [searchList, setSearchList] = useState([]);
     const [filters, setFilters] = useState({
         type: 'movie',
@@ -115,12 +115,12 @@ function Sr() {
 
     return (
         <div className="center-container">
-            <Container className='home1'>
-                {/* <Row>
+            <Container className='home'>
+                <Row>
                     <Col sm={12} md={12} lg={12} xl={12} xx={12}>
                         <h1 className="logo">Movie<span className="stream">Stream</span></h1>
                     </Col>
-                </Row> */}
+                </Row>
                 <Row>
                     <Col xs={12}>
                         <div className="input-group">
@@ -165,4 +165,4 @@ function Sr() {
     );
 }
 
-export default Sr;
+export default Index2;

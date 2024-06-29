@@ -38,20 +38,76 @@ const ReadMore = ({ text, maxWords }) => {
     );
 };
 
-const FilterBar = ({ filters, handleChange, handleSubmit }) => {
+const FilterBar = ({ filters, handleChange, handleGenreChange, handleSubmit }) => {
+    const movieGenres = [
+        { value: "28", label: "Action" },
+        { value: "12", label: "Adventure" },
+        { value: "35", label: "Comedy" },
+        { value: "80", label: "Crime" },
+        { value: "18", label: "Drama" },
+        { value: "10751", label: "Family" },
+        { value: "14", label: "Fantasy" },
+        { value: "36", label: "History" },
+        { value: "27", label: "Horror" },
+        { value: "10402", label: "Music" },
+        { value: "9648", label: "Mystery" },
+        { value: "10749", label: "Romance" },
+        { value: "878", label: "Science Fiction" },
+        { value: "10770", label: "TV Movie" },
+        { value: "53", label: "Thriller" },
+        { value: "10752", label: "War" },
+        { value: "37", label: "Western" },
+    ];
+
+    const tvGenres = [
+        { value: "10759", label: "Action" },
+        { value: "35", label: "Comedy" },
+        { value: "80", label: "Crime" },
+        { value: "18", label: "Drama" },
+        { value: "10751", label: "Family" },
+        { value: "10762", label: "Kids" },
+        { value: "9648", label: "Mystery" },
+        { value: "10765", label: "Fantasy" },
+        { value: "10768", label: "War & Politics" },
+        { value: "37", label: "Western" },
+    ];
+
+    const genres = filters.type === 'movie' ? movieGenres : tvGenres;
+
+    const [isGenreDropdownOpen, setIsGenreDropdownOpen] = useState(false);
+
+    const toggleGenreDropdown = () => {
+        setIsGenreDropdownOpen(!isGenreDropdownOpen);
+    };
+
     return (
         <form className="filter-bar" onSubmit={handleSubmit}>
             <select name="type" value={filters.type} onChange={handleChange}>
                 <option value="movie">Movie</option>
                 <option value="tv">TV Show</option>
             </select>
-            {/* <select name="genre" value={filters.genre} onChange={handleChange}>
-                <option value="">All Genres</option>
-                <option value="16">Anime</option>
-                <option value="28">Action</option>
-                <option value="35">Comedy</option>
-                <option value="18">Drama</option>
-            </select> */}
+            <div className="dropdown">
+                <button type="button" onClick={toggleGenreDropdown}>
+                    Select Genres
+                </button>
+                {isGenreDropdownOpen && (
+                    <div className="dropdown-content">
+                        {genres.map((genre) => (
+                            <div key={genre.value}>
+                                <input
+                                    type="checkbox"
+                                    id={genre.value}
+                                    name="genre"
+                                    value={genre.value}
+                                    checked={filters.genre.includes(genre.value)}
+                                    onChange={handleGenreChange}
+                                />
+                                <label htmlFor={genre.value}>{genre.label}</label>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
             <select name="year" value={filters.year} onChange={handleChange}>
                 <option value="">All Years</option>
                 {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map(year => (
@@ -78,8 +134,8 @@ const FilterBar = ({ filters, handleChange, handleSubmit }) => {
 function Home1() {
     const [list, setList] = useState([]);
     const [filters, setFilters] = useState({
-        type: 'movie',
-        genre: '16', // Set default genre to Anime
+        type: 'tv',
+        genre: ['16'], // Set default genre to Anime as an array
         year: '',
         language: 'ja', // Set default language to Japanese
         sort: ''
@@ -88,7 +144,7 @@ function Home1() {
     const getItems = () => {
         const { type, genre, year, language, sort } = filters;
         const query = [
-            genre && `with_genres=${genre}`,
+            genre.length > 0 && `with_genres=${genre.join(',')}`,
             year && `primary_release_year=${year}`,
             language && `with_original_language=${language}`,
             sort && `sort_by=${sort}`
@@ -111,6 +167,19 @@ function Home1() {
         });
     };
 
+    const handleGenreChange = (e) => {
+        const { value, checked } = e.target;
+        setFilters((prevState) => {
+            const newGenres = checked
+                ? [...prevState.genre, value]
+                : prevState.genre.filter((genre) => genre !== value);
+            return {
+                ...prevState,
+                genre: newGenres
+            };
+        });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         getItems();
@@ -126,7 +195,7 @@ function Home1() {
     return (
         <div>
             <h1 className="title">Anime</h1>
-            <FilterBar filters={filters} handleChange={handleChange} handleSubmit={handleSubmit} />
+            <FilterBar filters={filters} handleChange={handleChange} handleGenreChange={handleGenreChange} handleSubmit={handleSubmit} />
             <Container>
                 <h3 style={{ textTransform: 'uppercase' }}>{filters.type}</h3>
                 <Carousel>
