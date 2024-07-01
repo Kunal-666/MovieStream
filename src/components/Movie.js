@@ -122,13 +122,13 @@ function Movie() {
         getMovies();
     }, [filters]);
 
-    const handleChange = (e) => {
+    function handleChange(e) {
         const { name, value } = e.target;
         setFilters({
             ...filters,
             [name]: value
         });
-    };
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();

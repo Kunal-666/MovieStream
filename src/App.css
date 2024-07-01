@@ -332,25 +332,7 @@ button {
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
 
-/* .movie-card {
-    font: 14px/22px "Lato", Arial, sans-serif;
-    color: #A9A8A3;
-    padding: 40px 0;
-}
 
-.movie-card .container {
-    margin: 0 auto;
-    width: 780px;
-    height: 640px;
-    background: #F0F0ED;
-    border-radius: 5px;
-    position: relative;
-}
-
-.movie-card .container img {
-    width: 225px;
-    height: 300px;
-} */
 
 .hero {
     height: 342px;
@@ -608,6 +590,10 @@ a[data-tooltip][data-placement="top"]::after {
 
 /* Footer.css */
 .footer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
     background-color: #343a40;
     color: #ffffff;
     padding: 20px 0;

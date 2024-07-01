@@ -46,24 +46,14 @@ const FilterBar = ({ filters, handleChange, handleSubmit }) => {
                 <option value="movie">Movie</option>
                 <option value="tv">TV Show</option>
             </select>
-            {/* <select name="genre" value={filters.genre} onChange={handleChange}>
-                <option value="">All Genres</option>
-                <option value="28">Action</option>
-                <option value="35">Comedy</option>
-                <option value="18">Drama</option>
-            </select> */}
+
             <select name="year" value={filters.year} onChange={handleChange}>
                 <option value="">All Years</option>
                 {Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i).map(year => (
                     <option key={year} value={year}>{year}</option>
                 ))}
             </select>
-            {/* <select name="sort" value={filters.sort} onChange={handleChange}>
-                <option value="">Sort By</option>
-                <option value="popularity.desc">Most Popular</option>
-                <option value="release_date.desc">Newest First</option>
-                <option value="release_date.asc">Oldest First</option>
-            </select> */}
+
             <button type="submit">Apply Filters</button>
         </form>
     );
@@ -117,8 +107,8 @@ function Index2() {
         <div className="center-container">
             <Container className='home'>
                 <Row>
-                    <Col sm={12} md={12} lg={12} xl={12} xx={12}>
-                        <h1 className="logo">Movie<span className="stream">Stream</span></h1>
+                    <Col className='col-md-12'>
+                        <h2 className="logo">Movie<span className="stream">Stream</span></h2>
                     </Col>
                 </Row>
                 <Row>

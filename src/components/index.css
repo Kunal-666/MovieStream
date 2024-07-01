@@ -46,43 +46,6 @@
     background: #0056b3;
 }
 
-/* .card {
-    width: 300px;
-    margin: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    background: white;
-}
-
-.card img.poster {
-    width: 100%;
-    height: auto;
-}
-
-.read-more {
-    text-align: justify;
-}
-
-.read-more-button {
-    background: none;
-    border: none;
-    color: blue;
-    cursor: pointer;
-    text-decoration: underline;
-    padding: 0;
-}
-
-.read-more-button:hover {
-    color: darkblue;
-}
-
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
-} */
 .home {
     padding-bottom: 45px;
 }
@@ -92,7 +55,7 @@
 
 .logo {
     padding-top: 100px;
-    font-size: 3em;
+    font-size: 2em;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 5px;
