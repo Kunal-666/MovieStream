@@ -665,7 +665,7 @@ a[data-tooltip][data-placement="top"]::after {
     .profile-container,
     .watchlist-container {
         width: 100%;
-        max-width: 800px;
+        max-width: 900px;
         margin-bottom: 40px;
     }
 
@@ -722,7 +722,7 @@ a[data-tooltip][data-placement="top"]::after {
 
         .movie-card {
             height: 100%;
-            max-width: 200px;
+            max-width: 250px;
             margin: 0 10px;
             border: none;
         }

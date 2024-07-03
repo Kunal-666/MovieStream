@@ -103,7 +103,8 @@ const Recommendations = () => {
 
   // Function to reduce items into groups of 5 for better layout
   const reduceItems = (acc, item, idx) => {
-    const groupIndex = Math.floor(idx / 5);
+    const itemsPerGroup = window.innerWidth < 768 ? 2 : 4; // Example: Change 768 to your desired breakpoint
+    const groupIndex = Math.floor(idx / itemsPerGroup);
     if (!acc[groupIndex]) {
       acc[groupIndex] = [];
     }

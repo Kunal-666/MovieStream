@@ -50,7 +50,8 @@ const WatchList = () => {
   }, [currentUser]);
 
   const reduceItems = (acc, item, idx) => {
-    const groupIndex = Math.floor(idx / 3); // Grouping items in sets of 3
+    const itemsPerGroup = window.innerWidth < 768 ? 2 : 3; // Example: Change 768 to your desired breakpoint
+    const groupIndex = Math.floor(idx / itemsPerGroup);
     if (!acc[groupIndex]) {
       acc[groupIndex] = [];
     }
