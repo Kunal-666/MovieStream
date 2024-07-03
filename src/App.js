@@ -14,6 +14,11 @@ import { useState } from "react";
 import { Container, Row, Col } from 'react-bootstrap';
 import Anime from "./Pages/Anime";
 import Index1 from "./Pages/Index1";
+import Recommendations from './components/Recommendations';
+import WatchList from './components/WatchList';
+import SomeComponent from "./components/SomeComponent";
+import Auth from "./Pages/Auth";
+import User from "./Pages/User";
 function App() {
   const [mode, setmode] = useState('light')
   const toggleMode = () => {
@@ -36,6 +41,7 @@ function App() {
   }
   return (
     <><div className="App">
+      <SomeComponent />
       <BrowserRouter>
         <BasicExample mode={mode} toggleMode={toggleMode} />
         <Routes>
@@ -47,8 +53,12 @@ function App() {
           <Route path="/Anime" element={<Anime />} />
           <Route path="/Contact" element={<Contact />} />
           <Route path="/About" element={<About />} />
+          <Route path="/Auth" element={<Auth />} />
+          <Route path="/User" element={<User />} />
           <Route path="/movie/:id" element={<CardDetails />} />
           <Route path="/tv/:id" element={<CardDetails1 />} />
+          <Route path="/recommendations" component={Recommendations} />
+          <Route path="/watchlist" component={WatchList} />
         </Routes>
       </BrowserRouter>
       <footer className="footer mt-4">

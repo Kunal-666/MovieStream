@@ -7,21 +7,84 @@ import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import Spinner from 'react-bootstrap/Spinner';
 import './tv.css';
+import { useAuth } from '../context/AuthContext';
+import { firestore } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 
 const CardDetails1 = () => {
-    const { id } = useParams();
-
+    const { currentUser, addToWatchList } = useAuth();
+    const [watchList, setWatchList] = useState([]);
+    const [relatedTVShows, setRelatedTVShows] = useState([]);
+    const [tvShowDetails, setTVShowDetails] = useState(null);
     const [Season, setSeason] = useState(localStorage.getItem('seas') || '');
     const [Episode, setEpisode] = useState(localStorage.getItem('epis') || '');
-    const [movieList, setMovieList] = useState(null);
     const [EpisodeList, setEpisodeList] = useState(null);
 
+    const { id } = useParams();
     const apiKey = '0d0f1379d0c8b95596f350605ec7f984'; // Replace with your TMDB API key
+    const handleAdd = async (item) => {
+        await addToWatchList(currentUser.uid, item);
+        setWatchList([...watchList, item]);
+    };
+    useEffect(() => {
+        const fetchTVShowDetails = async () => {
+            try {
+                const response = await fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setTVShowDetails(data);
+                    const genres = data.genres ? data.genres.map(genre => genre.name) : [];
+                    if (currentUser) {
+                        handleAdd({ id: `${id}`, type: 'tv', genres: genres });
+                    }
+                } else {
+                    throw new Error('Failed to fetch TV show details');
+                }
+            } catch (error) {
+                console.error('Error fetching TV show details:', error);
+            }
+        };
+
+        fetchTVShowDetails();
+    }, [id, apiKey]);
 
     useEffect(() => {
-        fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&language=en-US`)
-            .then(res => res.json())
-            .then(json => setMovieList(json));
+        const fetchWatchList = async () => {
+            if (currentUser) {
+                try {
+                    const userDocRef = doc(firestore, 'users', currentUser.uid);
+                    const userDocSnap = await getDoc(userDocRef);
+                    if (userDocSnap.exists()) {
+                        setWatchList(userDocSnap.data().watchList || []);
+                    } else {
+                        console.log('No such document!');
+                    }
+                } catch (error) {
+                    console.error('Firestore Error:', error);
+                }
+            }
+        };
+
+        fetchWatchList();
+    }, [currentUser]);
+
+    useEffect(() => {
+        const fetchRelatedTVShows = async () => {
+            try {
+                const response = await fetch(`https://api.themoviedb.org/3/tv/${id}/similar?api_key=${apiKey}&language=en-US`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setRelatedTVShows(data.results);
+                } else {
+                    throw new Error('Failed to fetch related TV shows');
+                }
+            } catch (error) {
+                console.error('Error fetching related TV shows:', error);
+            }
+        };
+
+        fetchRelatedTVShows();
     }, [id, apiKey]);
 
     useEffect(() => {
@@ -31,6 +94,8 @@ const CardDetails1 = () => {
                 .then(json => setEpisodeList(json));
         }
     }, [id, Season, apiKey]);
+
+
 
     const handleSeasonChange = (event) => {
         const newSeason = event.target.value;
@@ -51,17 +116,17 @@ const CardDetails1 = () => {
     )) : [];
 
     const seasonOptions = [];
-    for (let i = 1; i <= (movieList?.number_of_seasons || 1); i++) {
+    for (let i = 1; i <= (tvShowDetails?.number_of_seasons || 1); i++) {
         seasonOptions.push(<option key={i} value={i}>{i}</option>);
     }
 
     return (
         <Container className="mt-4">
-            {movieList ? (
+            {tvShowDetails ? (
                 <>
                     <Row className="mb-4">
                         <Col>
-                            <h3 className="text-center text-primary">{movieList.name}</h3>
+                            <h3 className="text-center text-primary">{tvShowDetails.name}</h3>
                             <div className="video-wrapper mb-4">
                                 <iframe
                                     src={`https://vidsrc.to/embed/tv/${id}/${Season}/${Episode}`}
@@ -96,10 +161,10 @@ const CardDetails1 = () => {
                     <Row>
                         <Col md={4}>
                             <Card className="shadow-sm mb-4">
-                                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${movieList.poster_path}`} alt='poster' />
+                                <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${tvShowDetails.poster_path}`} alt='poster' />
                                 <Card.Body>
                                     <Card.Title>Genres</Card.Title>
-                                    <Card.Text>{movieList.genres && movieList.genres.map(g => g.name).join(', ')}</Card.Text>
+                                    <Card.Text>{tvShowDetails.genres && tvShowDetails.genres.map(g => g.name).join(', ')}</Card.Text>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -107,9 +172,9 @@ const CardDetails1 = () => {
                             <Card className="shadow-sm mb-4">
                                 <Card.Body>
                                     <Card.Title>Tagline</Card.Title>
-                                    <Card.Text>{movieList.tagline}</Card.Text>
+                                    <Card.Text>{tvShowDetails.tagline}</Card.Text>
                                     <Card.Title>Total Seasons</Card.Title>
-                                    <Card.Text>{movieList.number_of_seasons}</Card.Text>
+                                    <Card.Text>{tvShowDetails.number_of_seasons}</Card.Text>
                                     <Card.Title>Total Episodes in Season {Season}</Card.Title>
                                     <Card.Text>{EpisodeList?.episodes ? EpisodeList.episodes.length : 0}</Card.Text>
                                 </Card.Body>
@@ -117,7 +182,7 @@ const CardDetails1 = () => {
                             <Card className="shadow-sm">
                                 <Card.Body>
                                     <Card.Title>Overview</Card.Title>
-                                    <Card.Text>{movieList.overview}</Card.Text>
+                                    <Card.Text>{tvShowDetails.overview}</Card.Text>
                                 </Card.Body>
                             </Card>
                         </Col>
@@ -130,6 +195,26 @@ const CardDetails1 = () => {
                     </Spinner>
                 </Row>
             )}
+
+            <Row className="mt-4">
+                <Col>
+                    <h5 className="text-primary mb-3">Related TV Shows</h5>
+                    <Row xs={2} md={3} lg={4} className="g-4">
+                        {relatedTVShows.map(show => (
+                            <Col key={show.id}>
+                                <Card className="shadow-sm h-100">
+                                    <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${show.poster_path}`} alt={show.name} />
+                                    <Card.Body>
+                                        <Card.Title>{show.name}</Card.Title>
+                                        <Card.Text>{show.first_air_date}</Card.Text>
+                                    </Card.Body>
+                                    <Link to={`/tv/${show.id}`} className="watch-link">Watch</Link>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
+                </Col>
+            </Row>
         </Container>
     );
 };

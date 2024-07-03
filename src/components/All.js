@@ -54,8 +54,12 @@ function All() {
   const getGenreNames = (genreIds) => genreIds.map(id => genres[id]).join(', ');
 
   const reduceRecipes = (acc, cur, index) => {
-    const groupIndex = Math.floor(index / 4);
-    if (!acc[groupIndex]) acc[groupIndex] = [];
+    const itemsPerGroup = window.innerWidth < 768 ? 2 : 4; // Example: Change 768 to your desired breakpoint
+    const groupIndex = Math.floor(index / itemsPerGroup);
+
+    if (!acc[groupIndex]) {
+      acc[groupIndex] = [];
+    }
     acc[groupIndex].push(cur);
     return acc;
   };

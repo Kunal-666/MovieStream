@@ -1,42 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Carousel from 'react-bootstrap/Carousel';
+// import Carousel from 'react-bootstrap/Carousel';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 // import './home1.css'; // Ensure you create and import this CSS file
 
-const ReadMore = ({ text, maxWords }) => {
-    const words = String(text).split(' ');
-    const truncatedText = words.slice(0, maxWords).join(' ');
-    const remainingText = words.slice(maxWords).join(' ');
-    const [showMore, setShowMore] = useState(false);
+// const ReadMore = ({ text, maxWords }) => {
+//     const words = String(text).split(' ');
+//     const truncatedText = words.slice(0, maxWords).join(' ');
+//     const remainingText = words.slice(maxWords).join(' ');
+//     const [showMore, setShowMore] = useState(false);
 
-    const toggleReadMore = () => {
-        setShowMore(!showMore);
-    };
+//     const toggleReadMore = () => {
+//         setShowMore(!showMore);
+//     };
 
-    return (
-        <div className="read-more">
-            {showMore ? (
-                <div>
-                    {truncatedText} {remainingText}
-                    <button className="read-more-button" onClick={toggleReadMore}>
-                        Read less
-                    </button>
-                </div>
-            ) : (
-                <div>
-                    {truncatedText}
-                    {remainingText && (
-                        <button className="read-more-button" onClick={toggleReadMore}>
-                            Read More
-                        </button>
-                    )}
-                </div>
-            )}
-        </div>
-    );
-};
+//     return (
+//         <div className="read-more">
+//             {showMore ? (
+//                 <div>
+//                     {truncatedText} {remainingText}
+//                     <button className="read-more-button" onClick={toggleReadMore}>
+//                         Read less
+//                     </button>
+//                 </div>
+//             ) : (
+//                 <div>
+//                     {truncatedText}
+//                     {remainingText && (
+//                         <button className="read-more-button" onClick={toggleReadMore}>
+//                             Read More
+//                         </button>
+//                     )}
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
 
 const FilterBar = ({ filters, handleChange, handleSubmit }) => {
     return (
@@ -100,6 +100,7 @@ function Home1() {
     };
 
     useEffect(() => {
+        fetchGenres();
         getItems();
     }, [filters]);
 
@@ -116,53 +117,50 @@ function Home1() {
         getItems();
     };
 
-    const reduceRecipes = (acc, cur, index) => {
-        const groupIndex = Math.floor(index / 4);
-        if (!acc[groupIndex]) acc[groupIndex] = [];
-        acc[groupIndex].push(cur);
-        return acc;
+    // const reduceRecipes = (acc, cur, index) => {
+    //     const groupIndex = Math.floor(index / 4);
+    //     if (!acc[groupIndex]) acc[groupIndex] = [];
+    //     acc[groupIndex].push(cur);
+    //     return acc;
+    // };
+    const [genres, setGenres] = useState({});
+
+    const fetchGenres = async () => {
+        const responses = await Promise.all([
+            fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=0d0f1379d0c8b95596f350605ec7f984').then(res => res.json()),
+            fetch('https://api.themoviedb.org/3/genre/tv/list?api_key=0d0f1379d0c8b95596f350605ec7f984').then(res => res.json())
+        ]);
+
+        const allGenres = [...responses[0].genres, ...responses[1].genres];
+        const genresMap = {};
+        allGenres.forEach(genre => {
+            genresMap[genre.id] = genre.name;
+        });
+
+        setGenres(genresMap);
     };
+    const getGenreNames = (genreIds) => genreIds.map(id => genres[id]).join(', ');
 
     return (
         <div>
             <h1 className="title">Indian Movies and TV Shows</h1>
             <FilterBar filters={filters} handleChange={handleChange} handleSubmit={handleSubmit} />
             <Container>
-                <h3 style={{ textTransform: 'uppercase' }} >{filters.type}</h3>
-                <Carousel>
-                    {list.reduce(reduceRecipes, []).map((group, index) => (
-                        <Carousel.Item key={index}>
-                            <div className="d-flex justify-content-center">
-                                {group.map((item, index) => (
-                                    <Card key={index} style={{ width: "18rem" }}>
-                                        <Link to={`/${filters.type}/${item.id}`}>
-                                            <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
-                                        </Link>
-                                    </Card>
-                                ))}
-                            </div>
-                        </Carousel.Item>
-                    ))}
-                </Carousel>
+                <h3 style={{ textTransform: 'uppercase', textAlign: 'center' }} >{filters.type}</h3>
+
             </Container>
             <div className="cards">
                 {list.map((item) => (
-                    <article className="card" key={item.id}>
-                        <img alt='poster' className='poster' src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
-                        <div className="card-content">
-                            <div className="content-title">
-                                <h2>{item.title || item.name}</h2>
-                            </div>
-                            <div className="content-info">
+                    <Card key={item.id} className="movie-card">
+                        <Link to={`/${filters.type}/${item.id}`}>
+                            <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${item.poster_path}`} />
+                            <div className="hover-details">
+                                <h5>{item.title || item.name}</h5>
+                                <p>{getGenreNames(item.genre_ids)}</p>
                                 <p>{item.release_date || item.first_air_date}</p>
-                                <ReadMore text={item.overview} maxWords={20} />
                             </div>
-                        </div>
-                        <footer className="card-footer">
-                            <p>Rating: {item.vote_average}</p>
-                            <Link to={`/${filters.type}/${item.id}`} className="watch-link">Watch</Link>
-                        </footer>
-                    </article>
+                        </Link>
+                    </Card>
                 ))}
             </div>
         </div>

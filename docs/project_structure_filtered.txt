@@ -1,0 +1,32 @@
+
+[src]
+    ├── App.css
+    ├── App.js
+    ├── App.test.js
+    ├── [components]
+        ├── All.js
+        ├── Anime.js
+        ├── Anlatest.js
+        ├── Anmtv.js
+        ├── CardDetails.js
+        ├── Home1.js
+        ├── index.css
+        ├── Index2.js
+        ├── Movie.js
+        ├── nav.js
+        ├── Sr.js
+        ├── tv.css
+        └── Tvserch.js
+    ├── index.css
+    ├── index.js
+    ├── logo.svg
+    ├── [Pages]
+        ├── About.js
+        ├── Anime.js
+        ├── Contact.js
+        ├── Home.js
+        ├── Index1.js
+        ├── India.js
+        ├── Movies.js
+        └── Tv.js
+    

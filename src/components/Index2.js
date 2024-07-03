@@ -5,39 +5,40 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './index.css';
+import Card from 'react-bootstrap/Card';
 
-const ReadMore = ({ text, maxWords }) => {
-    const words = String(text).split(' ');
-    const truncatedText = words.slice(0, maxWords).join(' ');
-    const remainingText = words.slice(maxWords).join(' ');
-    const [showMore, setShowMore] = useState(false);
+// const ReadMore = ({ text, maxWords }) => {
+//     const words = String(text).split(' ');
+//     const truncatedText = words.slice(0, maxWords).join(' ');
+//     const remainingText = words.slice(maxWords).join(' ');
+//     const [showMore, setShowMore] = useState(false);
 
-    const toggleReadMore = () => {
-        setShowMore(!showMore);
-    };
+//     const toggleReadMore = () => {
+//         setShowMore(!showMore);
+//     };
 
-    return (
-        <div className="read-more">
-            {showMore ? (
-                <div>
-                    {truncatedText} {remainingText}
-                    <button className="read-more-button" onClick={toggleReadMore}>
-                        Read less
-                    </button>
-                </div>
-            ) : (
-                <div>
-                    {truncatedText}
-                    {remainingText && (
-                        <button className="read-more-button" onClick={toggleReadMore}>
-                            Read More
-                        </button>
-                    )}
-                </div>
-            )}
-        </div>
-    );
-};
+//     return (
+//         <div className="read-more">
+//             {showMore ? (
+//                 <div>
+//                     {truncatedText} {remainingText}
+//                     <button className="read-more-button" onClick={toggleReadMore}>
+//                         Read less
+//                     </button>
+//                 </div>
+//             ) : (
+//                 <div>
+//                     {truncatedText}
+//                     {remainingText && (
+//                         <button className="read-more-button" onClick={toggleReadMore}>
+//                             Read More
+//                         </button>
+//                     )}
+//                 </div>
+//             )}
+//         </div>
+//     );
+// };
 
 const FilterBar = ({ filters, handleChange, handleSubmit }) => {
     return (
@@ -80,6 +81,7 @@ function Index2() {
     };
 
     useEffect(() => {
+        fetchGenres();
         if (query.length > 2) {
             getSearch(query);
         } else {
@@ -102,15 +104,32 @@ function Index2() {
         e.preventDefault();
         getSearch(query);
     };
+    const [genres, setGenres] = useState({});
+
+    const fetchGenres = async () => {
+        const responses = await Promise.all([
+            fetch('https://api.themoviedb.org/3/genre/movie/list?api_key=0d0f1379d0c8b95596f350605ec7f984').then(res => res.json()),
+            fetch('https://api.themoviedb.org/3/genre/tv/list?api_key=0d0f1379d0c8b95596f350605ec7f984').then(res => res.json())
+        ]);
+
+        const allGenres = [...responses[0].genres, ...responses[1].genres];
+        const genresMap = {};
+        allGenres.forEach(genre => {
+            genresMap[genre.id] = genre.name;
+        });
+
+        setGenres(genresMap);
+    };
+    const getGenreNames = (genreIds) => genreIds.map(id => genres[id]).join(', ');
 
     return (
         <div className="center-container">
             <Container className='home'>
-                <Row>
+                {/* <Row>
                     <Col className='col-md-12'>
                         <h2 className="logo">Movie<span className="stream">Stream</span></h2>
                     </Col>
-                </Row>
+                </Row> */}
                 <Row>
                     <Col xs={12}>
                         <div className="input-group">
@@ -133,22 +152,16 @@ function Index2() {
             </Container>
             <div className="cards">
                 {searchList.map((search) => (
-                    <article className="card" key={search.id}>
-                        <img alt='poster' className='poster' src={`https://image.tmdb.org/t/p/w500${search.poster_path}`} />
-                        <div className="card-content">
-                            <div className="content-title">
-                                <h2>{search.original_title}</h2>
+                    <Card key={search.id} className="movie-card">
+                        <Link to={`/${filters.type}/${search.id}`}>
+                            <Card.Img variant="top" src={`https://image.tmdb.org/t/p/w500${search.poster_path}`} />
+                            <div className="hover-details">
+                                <h5>{search.title || search.name}</h5>
+                                <p>{getGenreNames(search.genre_ids)}</p>
+                                <p>{search.release_date || search.first_air_date}</p>
                             </div>
-                            <div className="content-info">
-                                <p>Release Date: {search.release_date}</p>
-                                <ReadMore text={search.overview} maxWords={20} />
-                            </div>
-                        </div>
-                        <footer className="card-footer">
-                            <p>Rating: {search.vote_average}</p>
-                            <Link to={`/movie/${search.id}`} className="watch-link">Watch</Link>
-                        </footer>
-                    </article>
+                        </Link>
+                    </Card>
                 ))}
             </div>
         </div>
